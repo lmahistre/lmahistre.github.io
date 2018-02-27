@@ -1,0 +1,103 @@
+
+		<!DOCTYPE html>
+		<html>
+			<head>
+				<title>PHP-SQlite3-Structure-Sync</title>
+				<link rel="stylesheet" type="text/css" href="/shared/style.css">
+				<meta name="viewport" content="width=device-width, initial-scale=1">
+				<meta charset="utf-8">
+			</head>
+			<body>
+				<div class="container">
+					<div class="readme">
+						<article class="markdown-body">
+							<h1 id="php-sqlite3-structure-sync">PHP-SQlite3-Structure-Sync</h1>
+<p>PHP-SQlite3-Structure-Sync is a tool allowing to manage the structure of an SQlite database with definition files.</p>
+<h2 id="usage">Usage</h2>
+<pre><code>$tableDefs = array(
+    array(
+        &#39;name&#39; =&gt;&#39;table_one&#39;,
+        &#39;fields&#39; =&gt; array(
+            array( 
+                &#39;name&#39; =&gt; &#39;id&#39;, 
+                &#39;type&#39; =&gt; &#39;integer&#39;, 
+                &#39;primary&#39; =&gt; true, 
+            ),
+            array( 
+                &#39;name&#39; =&gt; &#39;name&#39;, 
+                &#39;type&#39; =&gt; &#39;varchar&#39;,
+                &#39;length&#39; =&gt; 40, 
+            ),
+        ),
+    ),
+);
+
+$dbHandler = new SQLite3(&#39;database.sqlite&#39;);
+
+$sqliteSync = new Sqlite3StructureSync(array(
+    &#39;tableDefs&#39; =&gt; $tableDefs,
+    &#39;dbHandler&#39; =&gt; $dbHandler,
+));
+$sqliteSync-&gt;updateStructure();
+</code></pre><h2 id="methods">Methods</h2>
+<h3 id="setparams">setParams</h3>
+<p>Set parameters (see parameters section).</p>
+<pre><code>$sqliteSync-&gt;setParams(array(
+    &#39;tableDefs&#39; =&gt; $tableDefs,
+    &#39;dbHandler&#39; =&gt; $dbHandler,
+));
+</code></pre><p>Or :</p>
+<pre><code>$sqliteSync-&gt;setParams(array(
+    &#39;tableDefs&#39; =&gt; $tableDefs,
+    &#39;filename&#39; =&gt; $filename,
+));
+</code></pre><h3 id="setdbhandler">setDbHandler</h3>
+<p>Set the Database handler.</p>
+<pre><code>$sqliteSync-&gt;setDbHandler(new SQLite3(&#39;database.sqlite&#39;));
+</code></pre><h3 id="setfilename">setFilename</h3>
+<p>Set the name of the database file to use. The database handler is then created internally. If the file does not exist, it is created by the function <code>updateStructure</code>. Other functions do not create the file.</p>
+<pre><code>$sqliteSync-&gt;setFilename(&#39;database.sqlite&#39;);
+</code></pre><h3 id="compare">compare</h3>
+<p>Compares the structure of the database with table definitions.</p>
+<h3 id="generatesqlstatements">generateSqlStatements</h3>
+<p>Returns the list of SQL queries to send to update the structure.</p>
+<h3 id="updatestructure">updateStructure</h3>
+<p>Updates the structure of the database.</p>
+<p>Automatically compares the definition and the database then generates the SQL statements.</p>
+<h2 id="parameters">Parameters</h2>
+<p>Parameters can be set in an array by the constructor or the funtion <code>setParams</code>. They can also be set individually.</p>
+<h3 id="tabledefs-table-definitions">tableDefs : Table Definitions</h3>
+<p>Array of table definitions. Structure :</p>
+<pre><code>array 
+    array 
+        &#39;name&#39; =&gt; String Table Name
+        &#39;fields&#39; =&gt; array
+            array =&gt;
+                &#39;name&#39; =&gt; (required) String : field name
+                &#39;type&#39; =&gt; (required) String : type (integer, varchar, tinyint)
+                &#39;primary&#39; =&gt; (optional) Boolean : true if primary key, default false
+                &#39;null&#39; =&gt; Boolean : default true
+                &#39;length&#39; =&gt; Integer
+</code></pre><h3 id="dbhandler">dbHandler</h3>
+<p>Object of type SQLite3.</p>
+<p>Resource that handles the SQLite3 calls to the database, such as queries.</p>
+<h3 id="filename">filename</h3>
+<p>String.</p>
+<p>It is possible to specify the database file name instead of the database handler. In this case, a private database handler is set up internally.</p>
+<h3 id="deletetables-delete-tables">deleteTables : Delete tables</h3>
+<p>Boolean, if true tables in database but not in table definitions will be dropped.</p>
+<p>False by default.</p>
+<h2 id="requirements">Requirements</h2>
+<h3 id="dependencies">Dependencies</h3>
+<ul>
+<li>PHP module SQLite3 must be enabled</li>
+</ul>
+<h3 id="php-versions">PHP versions</h3>
+<p>Only PHP 5 is supported for now (&gt;= 5.3).</p>
+
+						</article>
+					</div>
+				</div>
+			</body>
+		</html>
+	
