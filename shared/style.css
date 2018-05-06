@@ -1,10 +1,18 @@
 body {
-  background-color: #CDF;
+  background-color: #013;
+  color: #EEE;
 }
 body .container {
   max-width: 980px;
   margin-right: auto;
   margin-left: auto;
+  background-color: #111;
+}
+a:link {
+  color: #88F;
+}
+a:visited {
+  color: #F8F;
 }
 .flash {
   position: relative;
@@ -767,7 +775,7 @@ a.branch-name {
   overflow: auto;
   font-size: 85%;
   line-height: 1.45;
-  background-color: #DDD;
+  background-color: #223;
   border-radius: 3px;
 }
 .markdown-body pre code,
@@ -17773,7 +17781,8 @@ body.min-width-0.page-responsive .flash-full .container {
 .readme .plain {
   padding: 45px;
   word-wrap: break-word;
-  background-color: #fff;
+  /*background-color:#fff;*/
+  background-color: #111;
   border: 1px solid #ddd;
   border-bottom-right-radius: 3px;
   border-bottom-left-radius: 3px;
