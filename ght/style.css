@@ -74,17 +74,23 @@ html body #react-root .app-container div.menu .menu-entry.active {
 html body #react-root .app-container div.menu .menu-entry:hover {
   background-color: #8AE;
 }
-html body #react-root .app-container div.menu .please-wait {
+html body #react-root .app-container div.menu .sync-indicator {
   float: right;
   color: #000;
   display: block;
-  background-color: #F00;
+  background-color: #888;
   width: 30px;
   height: 30px;
 }
-html body #react-root .app-container div.menu .please-wait span {
+html body #react-root .app-container div.menu .sync-indicator span {
   margin: 6px;
   font-size: 20px;
+}
+html body #react-root .app-container div.menu .sync-indicator.connected {
+  background-color: #0A0;
+}
+html body #react-root .app-container div.menu .sync-indicator.busy {
+  background-color: #F00;
 }
 html body #react-root .app-container select,
 html body #react-root .app-container input[type=text] {
