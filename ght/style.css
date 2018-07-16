@@ -10,10 +10,7 @@ html body {
   margin-left: 0px;
   margin-right: 0px;
   height: 100%;
-  background-color: #888;
-}
-html body #react-root {
-  height: 100%;
+  background-color: #EEE;
 }
 html body #react-root .app-container {
   background-color: #EEE;
@@ -21,6 +18,9 @@ html body #react-root .app-container {
   padding-top: 30px;
   margin-left: auto;
   margin-right: auto;
+}
+html body #react-root .app-container .text-page {
+  margin: 8px;
 }
 html body #react-root .app-container a.common-button {
   text-decoration: none;
@@ -107,7 +107,7 @@ html body #react-root .app-container div.menu .menu-entry {
   line-height: 18px;
 }
 html body #react-root .app-container div.menu .menu-entry.active {
-  background-color: #8BF;
+  background-color: #D5E;
 }
 html body #react-root .app-container div.menu .menu-entry:hover {
   background-color: #8AE;
@@ -311,7 +311,7 @@ table[data-table=project-list] td[data-column=actions] {
   width: 84px;
 }
 table[data-table=project-list] td[data-column=indicators] {
-  width: 56px;
+  width: 28px;
 }
 table[data-table=settings-list] td[data-column=label] {
   width: 100px;
