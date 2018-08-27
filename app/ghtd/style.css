@@ -130,6 +130,9 @@ html body #react-root .app-container div.menu .sync-indicator span {
 html body #react-root .app-container div.menu .sync-indicator.connected {
   background-color: #0A0;
 }
+html body #react-root .app-container div.menu .sync-indicator.sync-dirty {
+  background-color: #BB0;
+}
 html body #react-root .app-container div.menu .sync-indicator.busy {
   background-color: #F00;
 }
@@ -166,7 +169,7 @@ html body #react-root .app-container div.alerts .alert {
 }
 html body #react-root .app-container div.alerts .alert.error {
   background-color: #FCC;
-  color: #400;
+  color: #300;
 }
 html body #react-root .app-container div.alerts .alert.error .alert-hide {
   color: #800;
@@ -174,9 +177,19 @@ html body #react-root .app-container div.alerts .alert.error .alert-hide {
 html body #react-root .app-container div.alerts .alert.error .alert-hide:hover {
   color: #000;
 }
+html body #react-root .app-container div.alerts .alert.warning {
+  background-color: #FFC;
+  color: #330;
+}
+html body #react-root .app-container div.alerts .alert.warning .alert-hide {
+  color: #880;
+}
+html body #react-root .app-container div.alerts .alert.warning .alert-hide:hover {
+  color: #000;
+}
 html body #react-root .app-container div.alerts .alert.success {
   background-color: #CFC;
-  color: #040;
+  color: #030;
 }
 html body #react-root .app-container div.alerts .alert.success .alert-hide {
   color: #080;
