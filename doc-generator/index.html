@@ -1,75 +1,15 @@
-
-		<!DOCTYPE html>
-		<html>
-			<head>
-				<title>Doc Generator</title>
-				<link rel="stylesheet" type="text/css" href="/shared/style.css">
-				<meta name="viewport" content="width=device-width, initial-scale=1">
-				<meta charset="utf-8">
-			</head>
-			<body>
-				<div class="container">
-					<div class="readme">
-						<article class="markdown-body">
-							<h1 id="doc-generator">Doc Generator</h1>
-<p>Generates HTML from markdown files in local files or GitHub repositories.</p>
-<h2 id="functions">Functions</h2>
-<h3 id="less">less</h3>
-<p>Converts a LESS file to CSS.</p>
-<h4 id="parameters">Parameters</h4>
-<ul>
-<li>An object with properties:<ul>
-<li>inputFolder: folder containing the input file</li>
-<li>inputFilename: name of the input file</li>
-<li>outputFolder: folder where to place the output file</li>
-<li>outputFilename: name of out put file</li>
-</ul>
-</li>
-<li>Callback function</li>
-</ul>
-<h4 id="example-of-use">Example of use</h4>
-<pre><code>const generator = require(&#39;doc-generator&#39;);
-generator.less({
-  inputFolder : &#39;less&#39;,
-  inputFilename : &#39;index.less&#39;,
-  outputFolder : &#39;shared/css&#39;,
-  outputFilename : &#39;style.css&#39;,
-})
-</code></pre><h3 id="lesslist">lessList</h3>
-<p>Converts several LESS files to CSS files.</p>
-<h4 id="parameters">Parameters</h4>
-<ul>
-<li>A list of objects with properties:<ul>
-<li>inputFolder: folder containing the input file</li>
-<li>inputFilename: name of the input file</li>
-<li>outputFolder: folder where to place the output file</li>
-<li>outputFilename: name of out put file</li>
-</ul>
-</li>
-<li>Callback function</li>
-</ul>
-<h4 id="example-of-use">Example of use</h4>
-<pre><code>const generator = require(&#39;doc-generator&#39;);
-generator.lessList([
-  {
-    inputFolder : &#39;less&#39;,
-    inputFilename : &#39;index.less&#39;,
-    outputFolder : &#39;shared/css&#39;,
-    outputFilename : &#39;style.css&#39;,
-  },
-  {
-    inputFolder : &#39;less&#39;,
-    inputFilename : &#39;print.less&#39;,
-    outputFolder : &#39;shared/css&#39;,
-    outputFilename : &#39;print.css&#39;,
-  },
-])
-</code></pre><h3 id="convert">convert</h3>
-<p>Converts a Markdown file to HTML.</p>
-
-						</article>
-					</div>
-				</div>
-			</body>
-		</html>
-	
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>GHTD</title>
+		<link rel="stylesheet" type="text/css" href="/shared/style.css">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta charset="utf-8" />
+		<script type="text/javascript">
+			window.onload = function() {
+				window.location.href = '/doc/en/doc-generator';
+			}
+		</script>
+	</head>
+	<body></body>
+</html>

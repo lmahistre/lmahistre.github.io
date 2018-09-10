@@ -1,6 +1,6 @@
 html body {
   font-family: Helvetica, sans-serif, Arial;
-  font-size: 14px;
+  font-size: 15px;
   padding-top: 0px;
   padding-bottom: 0px;
   padding-left: 0px;
@@ -117,15 +117,16 @@ html body #react-root .app-container div.menu .sync-indicator {
   display: inline-block;
   background-color: #888;
   width: 18px;
-  padding: 5px 6px;
+  padding: 6px 6px;
   cursor: pointer;
+  vertical-align: bottom;
 }
 html body #react-root .app-container div.menu .sync-indicator span {
-  font-size: 16px;
+  font-size: 18px;
   line-height: 18px;
   display: block;
   width: 18px;
-  height: 20px;
+  height: 18px;
 }
 html body #react-root .app-container div.menu .sync-indicator.connected {
   background-color: #0A0;
