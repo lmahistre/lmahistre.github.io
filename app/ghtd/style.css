@@ -1,5 +1,9 @@
+html {
+  background-color: #889;
+  background-attachment: fixed;
+}
 html body {
-  font-family: Helvetica, sans-serif, Arial;
+  font-family: Arial, sans-serif;
   font-size: 15px;
   padding-top: 0px;
   padding-bottom: 0px;
@@ -10,10 +14,11 @@ html body {
   margin-left: 0px;
   margin-right: 0px;
   height: 100%;
-  background-color: #EEE;
+  max-width: 416px;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 html body #react-root .app-container {
-  background-color: #EEE;
   color: #111;
   padding-top: 30px;
   margin-left: auto;
@@ -21,6 +26,12 @@ html body #react-root .app-container {
 }
 html body #react-root .app-container .text-page {
   margin: 8px;
+}
+html body #react-root .app-container h2 {
+  margin-bottom: 12px;
+}
+html body #react-root .app-container p {
+  margin-top: 12px;
 }
 html body #react-root .app-container a.common-button {
   text-decoration: none;
@@ -44,6 +55,7 @@ html body #react-root .app-container a.small-button {
   border-radius: 2px;
   padding: 4px;
   display: inline-block;
+  line-height: 18px;
 }
 html body #react-root .app-container a.small-button:hover {
   background-color: #888;
@@ -84,17 +96,15 @@ html body #react-root .app-container a.small-button.small-button-purple {
 html body #react-root .app-container a.small-button.small-button-purple:hover {
   background-color: #A6A;
 }
-html body #react-root .app-container .clearfix {
-  clear: both;
-}
 html body #react-root .app-container div.menu {
-  background-color: rgba(204, 204, 204, 0.3);
+  background-color: rgba(204, 204, 204, 0.4);
   margin-bottom: 2px;
   padding-left: 4px;
   padding-right: 4px;
   position: fixed;
   top: 0px;
   width: 100%;
+  z-index: 100;
 }
 html body #react-root .app-container div.menu .menu-entry {
   background-color: rgba(204, 204, 204, 0.8);
@@ -107,7 +117,7 @@ html body #react-root .app-container div.menu .menu-entry {
   line-height: 18px;
 }
 html body #react-root .app-container div.menu .menu-entry.active {
-  background-color: #D5E;
+  background-color: #8AE;
 }
 html body #react-root .app-container div.menu .menu-entry:hover {
   background-color: #8AE;
@@ -120,6 +130,7 @@ html body #react-root .app-container div.menu .sync-indicator {
   padding: 6px 6px;
   cursor: pointer;
   vertical-align: bottom;
+  text-decoration: none;
 }
 html body #react-root .app-container div.menu .sync-indicator span {
   font-size: 18px;
@@ -136,32 +147,6 @@ html body #react-root .app-container div.menu .sync-indicator.sync-dirty {
 }
 html body #react-root .app-container div.menu .sync-indicator.busy {
   background-color: #F00;
-}
-html body #react-root .app-container select,
-html body #react-root .app-container input[type=text] {
-  border-style: solid;
-  border-width: 1px;
-  border-radius: 4px;
-  box-sizing: border-box;
-  padding: 4px 8px;
-  border-color: #CCC;
-  color: #111;
-}
-html body #react-root .app-container .project-label {
-  line-height: 18px;
-  color: #FFF;
-  border-radius: 2px;
-  padding: 3px 6px;
-  width: 40px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-}
-html body #react-root .app-container select.project-label {
-  width: 100%;
-}
-html body #react-root .app-container div.new-task-form {
-  padding: 1px 4px;
 }
 html body #react-root .app-container div.alerts .alert {
   margin: 4px 8px 0px 8px;
@@ -202,55 +187,6 @@ html body #react-root .app-container div.alerts .alert .alert-hide {
   float: right;
   cursor: pointer;
 }
-html body #react-root .app-container span.color-yes {
-  color: #0A0;
-}
-html body #react-root .app-container span.color-no {
-  color: #A00;
-}
-html body #react-root .app-container table.list-table {
-  width: 100%;
-  table-layout: fixed;
-}
-html body #react-root .app-container table.list-table tr.status-active {
-  color: #111;
-}
-html body #react-root .app-container table.list-table tr.status-done {
-  color: #888;
-}
-html body #react-root .app-container table.list-table input[type=text] {
-  width: 100%;
-}
-html body #react-root .app-container form select {
-  height: 24px;
-  background-color: #222;
-  color: #111;
-  border-width: 1px;
-  border-type: solid;
-  border-radius: 4px;
-  padding: 1px 2px;
-  margin: 1px 2px;
-}
-html body #react-root .app-container form select option {
-  color: #111;
-  height: 24px;
-  background-color: #FFF;
-}
-html body #react-root .app-container form table.form-table {
-  width: 100%;
-}
-html body #react-root .app-container form table.form-table select {
-  width: 100%;
-}
-html body #react-root .app-container form table.form-table input[type=text] {
-  width: 100%;
-}
-html body #react-root .app-container .page-content {
-  padding-left: 4px;
-  padding-right: 4px;
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
 html body #react-root .app-container .radio-selector .radio-selector-elt {
   display: inline-block;
   line-height: 18px;
@@ -264,126 +200,244 @@ html body #react-root .app-container .radio-selector .radio-selector-elt[data-se
   color: #111;
   background-color: #8BF;
 }
-html body #react-root .app-container[data-theme=light] {
-  background-color: #EEE;
+html body #react-root .app-container .clearfix {
+  clear: both;
+}
+html body #react-root .app-container select,
+html body #react-root .app-container input[type=text] {
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 4px;
+  box-sizing: border-box;
+  padding: 4px 8px;
+  border-color: #CCC;
   color: #111;
+  font-size: 15px;
+  font-family: Arial, sans-serif;
+  outline: none;
 }
-html body #react-root .app-container[data-theme=light] table.list-table tr.status-active {
-  color: #111;
-}
-html body #react-root .app-container[data-theme=light] select {
-  color: #111;
-  background-color: #DDD;
-  border-color: #BBB;
-}
-html body #react-root .app-container[data-theme=light] select option {
-  color: #111;
-  background-color: #DDD;
-}
-html body #react-root .app-container[data-theme=light] input[type=text] {
-  border-color: #BBB;
-  color: #111;
-  background-color: #DDD;
-}
-html body #react-root .app-container[data-theme=light] .radio-selector .radio-selector-elt {
-  color: #111;
-}
-html body #react-root .app-container[data-theme=dark] {
-  background-color: #111;
-  color: #EEE;
-}
-html body #react-root .app-container[data-theme=dark] table.list-table tr.status-active {
-  color: #EEE;
-}
-html body #react-root .app-container[data-theme=dark] select {
-  color: #EEE;
+html body #react-root .app-container select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-size: 20px;
+  background-repeat: no-repeat;
+  background-position-x: right;
+  background-position-y: center;
+  height: 24px;
   background-color: #222;
-  border-color: #444;
+  border-width: 1px;
+  border-type: solid;
+  border-radius: 4px;
+  padding: 1px 2px;
+  margin: 1px 2px;
 }
-html body #react-root .app-container[data-theme=dark] select option {
-  color: #EEE;
-  background-color: #222;
+html body #react-root .app-container select option {
+  height: 24px;
 }
-html body #react-root .app-container[data-theme=dark] input[type=text] {
-  border-color: #444;
-  color: #EEE;
-  background-color: #222;
+html body #react-root .app-container .project-label {
+  line-height: 18px;
+  color: #FFF;
+  border-radius: 2px;
+  padding: 3px 6px;
+  width: 40px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
 }
-html body #react-root .app-container[data-theme=dark] .radio-selector .radio-selector-elt {
-  color: #EEE;
+html body #react-root .app-container select.project-label {
+  width: 100%;
 }
-html body #react-root .app-container[data-theme=dark] .radio-selector .radio-selector-elt[data-selected=selected] {
-  color: #111;
+html body #react-root .app-container div.new-task-form {
+  padding: 2px 4px;
 }
-table[data-table=task-list] td[data-column=actions] {
+html body #react-root .app-container div.ui-tr {
+  border-radius: 4px;
+  margin: 4px;
+}
+html body #react-root .app-container div.ui-tr > div.td {
+  display: inline-block;
+  vertical-align: middle;
+}
+html body #react-root .app-container div.ui-block {
+  margin: 4px 4px;
+  border-radius: 4px;
+  padding: 4px;
+}
+html body #react-root .app-container span.color-yes {
+  color: #0A0;
+}
+html body #react-root .app-container span.color-no {
+  color: #A00;
+}
+html body #react-root .app-container .list-table {
+  width: 100%;
+}
+html body #react-root .app-container .list-table .ui-tr {
+  padding: 2px 2px;
+}
+html body #react-root .app-container .list-table .ui-tr.status-done {
+  color: #888;
+  opacity: 0.8;
+  z-index: 0;
+}
+html body #react-root .app-container .list-table .ui-tr.status-done .project-label {
+  opacity: 0.8;
+}
+html body #react-root .app-container .list-table .ui-tr input {
+  width: 100%;
+}
+html body #react-root .app-container .view-table {
+  width: 100%;
+}
+html body #react-root .app-container .view-table input[type=text] {
+  width: 100%;
+}
+html body #react-root .app-container .view-table .view-row {
+  padding: 2px 4px;
+}
+html body #react-root .app-container .view-table .view-row div[data-column=label] {
+  display: inline-block;
+  width: 30%;
+}
+html body #react-root .app-container .view-table .view-row div[data-column=value] {
+  display: inline-block;
+  width: 70%;
+}
+html body #react-root .app-container .label {
+  border-radius: 4px;
+  padding: 0px 4px;
+  line-height: 18px;
+  min-height: 20px;
+}
+html body #react-root .app-container div.form-table {
+  width: 100%;
+}
+html body #react-root .app-container div.form-table div.view-row {
+  width: 100%;
+  padding: 2px 4px;
+}
+html body #react-root .app-container div.form-table div.view-row div[data-column=label] {
+  display: inline-block;
+  width: 30%;
+}
+html body #react-root .app-container div.form-table div.view-row div[data-column=value] {
+  display: inline-block;
+  width: 70%;
+  box-sizing: border-box;
+  padding: 0px 4px;
+}
+html body #react-root .app-container div.form-table div.view-row div[data-column=value] select {
+  width: 100%;
+  height: 28px;
+  margin: 1px 0px;
+}
+html body #react-root .app-container div.form-table div.view-row div[data-column=value] input[type=text] {
+  width: 100%;
+}
+html body #react-root .app-container .page-content {
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+div[data-table=task-list] div.td[data-column=actions] {
   width: 84px;
 }
-table[data-table=task-list] td[data-column=project] {
+div[data-table=task-list] div.td[data-column=project] {
   width: 52px;
+  margin: 0px 2px;
 }
-table[data-table=project-list] td[data-column=actions] {
+div[data-table=task-list] div.td[data-column=name] {
+  width: calc(100% - 140px);
+}
+div[data-table=project-list] div.td[data-column=actions] {
   width: 84px;
 }
-table[data-table=project-list] td[data-column=indicators] {
+div[data-table=project-list] div.td[data-column=indicators] {
   width: 28px;
 }
-table[data-table=settings-list] td[data-column=label] {
+div[data-table=project-list] div.td[data-column=name] {
+  width: calc(100% - 112px);
+}
+div[data-table=settings-list] div.td[data-column=label] {
   width: 100px;
 }
-table[data-table=settings-list] td[data-column=value] {
+div[data-table=settings-list] div.td[data-column=value] {
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
+}
+div[data-table=import-project-list] div.td[data-column=name] {
+  width: calc(100% - 28px);
+}
+div[data-table=import-project-list] div.td[data-column=actions] {
+  width: 28px;
+}
+@media (min-width: 420px) {
+  html body {
+    max-width: none;
+  }
 }
 @media (min-width: 480px) {
   html body #react-root .app-container .project-label {
     width: 80px;
   }
-  table[data-table=task-list] td[data-column=project] {
+  div[data-table=task-list] div.td[data-column=project] {
     width: 92px;
+  }
+  div[data-table=task-list] div.td[data-column=name] {
+    width: calc(100% - 180px);
   }
 }
 @media (min-width: 576px) {
   html body #react-root .app-container .project-label {
     width: 120px;
   }
-  table[data-table=task-list] td[data-column=project] {
+  div[data-table=task-list] div.td[data-column=project] {
     width: 132px;
+  }
+  div[data-table=task-list] div.td[data-column=name] {
+    width: calc(100% - 220px);
   }
 }
 @media (min-width: 768px) {
   html body #react-root .app-container .project-label {
     width: 160px;
   }
-  table[data-table=task-list] td[data-column=project] {
+  div[data-table=task-list] div.td[data-column=project] {
     width: 172px;
+  }
+  div[data-table=task-list] div.td[data-column=name] {
+    width: calc(100% - 260px);
   }
 }
 @media (min-width: 992px) {
   html body #react-root .app-container .project-label {
     width: 200px;
   }
-  table[data-table=task-list] td[data-column=project] {
+  div[data-table=task-list] div.td[data-column=project] {
     width: 212px;
+  }
+  div[data-table=task-list] div.td[data-column=name] {
+    width: calc(100% - 300px);
   }
 }
 @media (min-width: 1200px) {
   html body #react-root .app-container .project-label {
     width: 240px;
   }
-  table[data-table=task-list] td[data-column=project] {
+  div[data-table=task-list] div.td[data-column=project] {
     width: 252px;
   }
+  div[data-table=task-list] div.td[data-column=name] {
+    width: calc(100% - 340px);
+  }
 }
-/*!
- *  Font Awesome 4.6.3 by @davegandy - http://fontawesome.io - @fontawesome
- *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
- */
-/* FONT PATH
- * -------------------------- */
 @font-face {
   font-family: 'FontAwesome';
-  src: url('fonts/fontawesome-webfont.eot?v=4.6.3');
-  src: url('fonts/fontawesome-webfont.eot?#iefix&v=4.6.3') format('embedded-opentype'), url('fonts/fontawesome-webfont.woff2?v=4.6.3') format('woff2'), url('fonts/fontawesome-webfont.woff?v=4.6.3') format('woff'), url('fonts/fontawesome-webfont.ttf?v=4.6.3') format('truetype'), url('fonts/fontawesome-webfont.svg?v=4.6.3#fontawesomeregular') format('svg');
+  src: url('../fonts/fontawesome-webfont.eot?v=4.6.3');
+  src: url('../fonts/fontawesome-webfont.eot?#iefix&v=4.6.3') format('embedded-opentype'), url('../fonts/fontawesome-webfont.woff2?v=4.6.3') format('woff2'), url('../fonts/fontawesome-webfont.woff?v=4.6.3') format('woff'), url('../fonts/fontawesome-webfont.ttf?v=4.6.3') format('truetype'), url('../fonts/fontawesome-webfont.svg?v=4.6.3#fontawesomeregular') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -436,9 +490,9 @@ table[data-table=settings-list] td[data-column=value] {
   left: -1.85714286em;
 }
 .fa-border {
-  padding: .2em .25em .15em;
+  padding: 0.2em 0.25em 0.15em;
   border: solid 0.08em #eeeeee;
-  border-radius: .1em;
+  border-radius: 0.1em;
 }
 .fa-pull-left {
   float: left;
@@ -447,10 +501,10 @@ table[data-table=settings-list] td[data-column=value] {
   float: right;
 }
 .fa.fa-pull-left {
-  margin-right: .3em;
+  margin-right: 0.3em;
 }
 .fa.fa-pull-right {
-  margin-left: .3em;
+  margin-left: 0.3em;
 }
 /* Deprecated as of 4.4.0 */
 .pull-right {
@@ -460,10 +514,10 @@ table[data-table=settings-list] td[data-column=value] {
   float: left;
 }
 .fa.pull-left {
-  margin-right: .3em;
+  margin-right: 0.3em;
 }
 .fa.pull-right {
-  margin-left: .3em;
+  margin-left: 0.3em;
 }
 .fa-spin {
   -webkit-animation: fa-spin 2s infinite linear;
@@ -2580,4 +2634,55 @@ table[data-table=settings-list] td[data-column=value] {
   margin: 0;
   overflow: visible;
   clip: auto;
+}
+html body #react-root .app-container[data-theme=light] {
+  color: #111;
+}
+html body #react-root .app-container[data-theme=light] .content {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+html body #react-root .app-container[data-theme=light] select {
+  color: #111;
+  background-color: rgba(224, 224, 224, 0.5);
+  background-image: url("img/arrow-black.png");
+  border-color: #BBB;
+}
+html body #react-root .app-container[data-theme=light] select option {
+  color: #111;
+  background-color: rgba(224, 224, 224, 0.5);
+}
+html body #react-root .app-container[data-theme=light] input[type=text] {
+  border-color: #BBB;
+  color: #111;
+  background-color: rgba(224, 224, 224, 0.5);
+}
+html body #react-root .app-container[data-theme=light] .radio-selector .radio-selector-elt {
+  color: #111;
+}
+html body #react-root .app-container[data-theme=dark] {
+  color: #EEE;
+}
+html body #react-root .app-container[data-theme=dark] .content {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+html body #react-root .app-container[data-theme=dark] select {
+  color: #EEE;
+  background-color: rgba(32, 32, 32, 0.5);
+  background-image: url("img/arrow-white.png");
+  border-color: #444;
+}
+html body #react-root .app-container[data-theme=dark] select option {
+  color: #EEE;
+  background-color: rgba(32, 32, 32, 0.5);
+}
+html body #react-root .app-container[data-theme=dark] input[type=text] {
+  border-color: #444;
+  color: #EEE;
+  background-color: rgba(32, 32, 32, 0.5);
+}
+html body #react-root .app-container[data-theme=dark] .radio-selector .radio-selector-elt {
+  color: #EEE;
+}
+html body #react-root .app-container[data-theme=dark] .radio-selector .radio-selector-elt[data-selected=selected] {
+  color: #111;
 }
