@@ -5637,7 +5637,7 @@ module.exports = warning;
 
 
 const storageService = __webpack_require__(47);
-const utilsService = __webpack_require__(22);
+const utilsService = __webpack_require__(23);
 
 
 exports.init = function() {
@@ -9367,6 +9367,18 @@ exports.setBackgroundImage = function(url) {
 }
 
 
+exports.addServiceWorker = function () {
+	if ('serviceWorker' in navigator) {
+		navigator.serviceWorker
+		.register('sw.js')
+		.then(function(registration) {
+			console.log('Service Worker registration complete.');
+		})
+		.catch(function(error) {
+			console.log('Service Worker registration failure.', error);
+		});
+	}
+}
 
 
 /***/ }),
@@ -9747,7 +9759,7 @@ module.exports.colors = [
 	},
 ];
 
-exports.version = '0.2.0';
+exports.version = '0.2.1';
 exports.appName = 'GHTD';
 exports.fileName = 'ghtd.json';
 
@@ -9773,6 +9785,48 @@ exports.themes = {
 
 /***/ }),
 /* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var React = __webpack_require__(1);
+
+var Block = function (_React$Component) {
+	_inherits(Block, _React$Component);
+
+	function Block() {
+		_classCallCheck(this, Block);
+
+		return _possibleConstructorReturn(this, (Block.__proto__ || Object.getPrototypeOf(Block)).apply(this, arguments));
+	}
+
+	_createClass(Block, [{
+		key: "render",
+		value: function render() {
+			return React.createElement(
+				"div",
+				{ className: "ui-block content" },
+				this.props.children
+			);
+		}
+	}]);
+
+	return Block;
+}(React.Component);
+
+module.exports = Block;
+
+/***/ }),
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -10021,7 +10075,7 @@ exports.settingsEncode = function(settings) {
 }
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -10211,7 +10265,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Buffer = __webpack_require__(3).Buffer
@@ -10314,48 +10368,6 @@ CipherBase.prototype._toString = function (value, enc, fin) {
 
 module.exports = CipherBase
 
-
-/***/ }),
-/* 25 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var React = __webpack_require__(1);
-
-var Block = function (_React$Component) {
-	_inherits(Block, _React$Component);
-
-	function Block() {
-		_classCallCheck(this, Block);
-
-		return _possibleConstructorReturn(this, (Block.__proto__ || Object.getPrototypeOf(Block)).apply(this, arguments));
-	}
-
-	_createClass(Block, [{
-		key: "render",
-		value: function render() {
-			return React.createElement(
-				"div",
-				{ className: "ui-block content" },
-				this.props.children
-			);
-		}
-	}]);
-
-	return Block;
-}(React.Component);
-
-module.exports = Block;
 
 /***/ }),
 /* 26 */
@@ -10538,7 +10550,7 @@ function randomBytes (size, cb) {
   return bytes
 }
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(19), __webpack_require__(23)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(19), __webpack_require__(24)))
 
 /***/ }),
 /* 28 */
@@ -10701,7 +10713,7 @@ var inherits = __webpack_require__(2)
 var MD5 = __webpack_require__(48)
 var RIPEMD160 = __webpack_require__(52)
 var sha = __webpack_require__(53)
-var Base = __webpack_require__(24)
+var Base = __webpack_require__(25)
 
 function Hash (hash) {
   Base.call(this, 'digest')
@@ -11438,7 +11450,7 @@ function nextTick(fn, arg1, arg2, arg3) {
 }
 
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(23)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(24)))
 
 /***/ }),
 /* 40 */
@@ -13744,7 +13756,7 @@ Writable.prototype._destroy = function (err, cb) {
   this.end();
   cb(err);
 };
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(23), __webpack_require__(134).setImmediate, __webpack_require__(19)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(24), __webpack_require__(134).setImmediate, __webpack_require__(19)))
 
 /***/ }),
 /* 52 */
@@ -16407,7 +16419,7 @@ function indexOf(xs, x) {
   }
   return -1;
 }
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(19), __webpack_require__(23)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(19), __webpack_require__(24)))
 
 /***/ }),
 /* 72 */
@@ -17131,7 +17143,7 @@ module.exports = Sha512
 
 var inherits = __webpack_require__(2)
 var Legacy = __webpack_require__(146)
-var Base = __webpack_require__(24)
+var Base = __webpack_require__(25)
 var Buffer = __webpack_require__(3).Buffer
 var md5 = __webpack_require__(78)
 var RIPEMD160 = __webpack_require__(52)
@@ -17267,7 +17279,7 @@ if (process.browser) {
 }
 module.exports = defaultEncoding
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(23)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(24)))
 
 /***/ }),
 /* 83 */
@@ -17448,7 +17460,7 @@ module.exports = {"aes-128-ecb":{"cipher":"AES","key":128,"iv":0,"mode":"ECB","t
 
 var aes = __webpack_require__(41)
 var Buffer = __webpack_require__(3).Buffer
-var Transform = __webpack_require__(24)
+var Transform = __webpack_require__(25)
 var inherits = __webpack_require__(2)
 var GHASH = __webpack_require__(163)
 var xor = __webpack_require__(32)
@@ -17571,7 +17583,7 @@ module.exports = StreamCipher
 
 var aes = __webpack_require__(41)
 var Buffer = __webpack_require__(3).Buffer
-var Transform = __webpack_require__(24)
+var Transform = __webpack_require__(25)
 var inherits = __webpack_require__(2)
 
 function StreamCipher (mode, key, iv, decrypt) {
@@ -20741,7 +20753,7 @@ const githubService = __webpack_require__(112);
 const validateService = __webpack_require__(259);
 const reduxActions = __webpack_require__(10);
 const store = __webpack_require__(5);
-const utils = __webpack_require__(22);
+const utils = __webpack_require__(23);
 
 
 exports.importProjects = function (callback) {
@@ -20844,6 +20856,7 @@ const call = function(uri, post, callback) {
 	const settings = state.settings;
 	const params = {
 		credentials : 'omit',
+		cache : 'no-store',
 	};
 
 	if (post) {
@@ -21172,6 +21185,7 @@ const browserService = __webpack_require__(18);
 window.onload = function () {
 	browserService.setTitle();
 	browserService.render();
+	browserService.addServiceWorker();
 }
 
 
@@ -21713,7 +21727,7 @@ module.exports = function (state, action) {
 /***/ (function(module, exports, __webpack_require__) {
 
 const clone = __webpack_require__(67);
-const utils = __webpack_require__(22);
+const utils = __webpack_require__(23);
 
 
 exports.DELETE_REMOVED_TASKS = function(state, action) {
@@ -22527,7 +22541,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(19), __webpack_require__(23)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(19), __webpack_require__(24)))
 
 /***/ }),
 /* 136 */
@@ -23020,7 +23034,7 @@ module.exports = Sha384
 var inherits = __webpack_require__(2)
 var Buffer = __webpack_require__(3).Buffer
 
-var Base = __webpack_require__(24)
+var Base = __webpack_require__(25)
 
 var ZEROS = Buffer.alloc(128)
 var blocksize = 64
@@ -23176,7 +23190,7 @@ module.exports = function (password, salt, iterations, keylen, digest, callback)
   }), callback)
 }
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(19), __webpack_require__(23)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(19), __webpack_require__(24)))
 
 /***/ }),
 /* 149 */
@@ -23255,7 +23269,7 @@ exports.listCiphers = exports.getCiphers = getCiphers
 /* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var CipherBase = __webpack_require__(24)
+var CipherBase = __webpack_require__(25)
 var des = __webpack_require__(54)
 var inherits = __webpack_require__(2)
 var Buffer = __webpack_require__(3).Buffer
@@ -24010,7 +24024,7 @@ var MODES = __webpack_require__(56)
 var AuthCipher = __webpack_require__(87)
 var Buffer = __webpack_require__(3).Buffer
 var StreamCipher = __webpack_require__(88)
-var Transform = __webpack_require__(24)
+var Transform = __webpack_require__(25)
 var aes = __webpack_require__(41)
 var ebtk = __webpack_require__(42)
 var inherits = __webpack_require__(2)
@@ -24402,7 +24416,7 @@ var AuthCipher = __webpack_require__(87)
 var Buffer = __webpack_require__(3).Buffer
 var MODES = __webpack_require__(56)
 var StreamCipher = __webpack_require__(88)
-var Transform = __webpack_require__(24)
+var Transform = __webpack_require__(25)
 var aes = __webpack_require__(41)
 var ebtk = __webpack_require__(42)
 var inherits = __webpack_require__(2)
@@ -31437,7 +31451,7 @@ function randomFillSync (buf, offset, size) {
   return actualFill(buf, offset, size)
 }
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(19), __webpack_require__(23)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(19), __webpack_require__(24)))
 
 /***/ }),
 /* 215 */
@@ -31569,7 +31583,7 @@ var _require = __webpack_require__(17),
     Redirect = _require.Redirect;
 
 var AppPage = __webpack_require__(13);
-var Block = __webpack_require__(25);
+var Block = __webpack_require__(22);
 
 var consts = __webpack_require__(21);
 var store = __webpack_require__(5);
@@ -35666,7 +35680,7 @@ var SmallButton = __webpack_require__(29);
 var Row = __webpack_require__(45);
 
 var browserService = __webpack_require__(18);
-var utilsService = __webpack_require__(22);
+var utilsService = __webpack_require__(23);
 var L = __webpack_require__(11);
 var reduxActions = __webpack_require__(10);
 var store = __webpack_require__(5);
@@ -35880,7 +35894,7 @@ var React = __webpack_require__(1);
 
 var AppPage = __webpack_require__(13);
 var CommonButton = __webpack_require__(16);
-var Block = __webpack_require__(25);
+var Block = __webpack_require__(22);
 
 var constsService = __webpack_require__(21);
 var L = __webpack_require__(11);
@@ -35994,7 +36008,7 @@ var Link = ReactRouterDom.Link;
 var AppPage = __webpack_require__(13);
 var CommonButton = __webpack_require__(16);
 var DateViewer = __webpack_require__(61);
-var Block = __webpack_require__(25);
+var Block = __webpack_require__(22);
 
 var store = __webpack_require__(5);
 var L = __webpack_require__(11);
@@ -36136,13 +36150,14 @@ var ReactRouterDom = __webpack_require__(17);
 var Redirect = ReactRouterDom.Redirect;
 
 var AppPage = __webpack_require__(13);
+var Block = __webpack_require__(22);
 var CommonButton = __webpack_require__(16);
 
 var browserService = __webpack_require__(18);
 var L = __webpack_require__(11);
 var reduxActions = __webpack_require__(10);
 var store = __webpack_require__(5);
-var utils = __webpack_require__(22);
+var utils = __webpack_require__(23);
 
 var ProjectDelete = function (_React$Component) {
 	_inherits(ProjectDelete, _React$Component);
@@ -36174,12 +36189,16 @@ var ProjectDelete = function (_React$Component) {
 					AppPage,
 					{ selectedMenu: 'projects' },
 					React.createElement(
-						'div',
-						{ className: 'text-page' },
+						Block,
+						null,
 						React.createElement(
-							'p',
-							null,
-							projectIsUsed ? L("The project ") + project.name + L(" cannot be deleted because there are still tasks attached to it.") : L("Are you sure you want to delete the project ") + project.name + L("?")
+							'div',
+							{ className: 'text-page' },
+							React.createElement(
+								'p',
+								null,
+								projectIsUsed ? L("The project ") + project.name + L(" cannot be deleted because there are still tasks attached to it.") : L("Are you sure you want to delete the project ") + project.name + L("?")
+							)
 						)
 					),
 					projectIsUsed ? null : React.createElement(
@@ -36229,7 +36248,7 @@ var CommonButton = __webpack_require__(16);
 var ProjectEditForm = __webpack_require__(269);
 
 var browserService = __webpack_require__(18);
-var utilsService = __webpack_require__(22);
+var utilsService = __webpack_require__(23);
 var reduxActions = __webpack_require__(10);
 var store = __webpack_require__(5);
 
@@ -36342,7 +36361,7 @@ var React = __webpack_require__(1);
 
 var AppPage = __webpack_require__(13);
 var CommonButton = __webpack_require__(16);
-var Block = __webpack_require__(25);
+var Block = __webpack_require__(22);
 
 var constsService = __webpack_require__(21);
 var L = __webpack_require__(11);
@@ -36524,7 +36543,7 @@ var AppPage = __webpack_require__(13);
 var SmallButton = __webpack_require__(29);
 var Row = __webpack_require__(45);
 
-var utilsService = __webpack_require__(22);
+var utilsService = __webpack_require__(23);
 var browserService = __webpack_require__(18);
 var reduxActions = __webpack_require__(10);
 var store = __webpack_require__(5);
@@ -36752,7 +36771,7 @@ var AppPage = __webpack_require__(13);
 var VisibleMarker = __webpack_require__(273);
 var CommonButton = __webpack_require__(16);
 var DateViewer = __webpack_require__(61);
-var Block = __webpack_require__(25);
+var Block = __webpack_require__(22);
 
 var store = __webpack_require__(5);
 var reduxActions = __webpack_require__(10);
@@ -36992,14 +37011,14 @@ var ReactRedux = __webpack_require__(14);
 var AppPage = __webpack_require__(13);
 var CommonButton = __webpack_require__(16);
 var Upload = __webpack_require__(275);
-var Block = __webpack_require__(25);
+var Block = __webpack_require__(22);
 
 var constsService = __webpack_require__(21);
 var browserService = __webpack_require__(18);
 var L = __webpack_require__(11);
 var reduxActions = __webpack_require__(10);
 var store = __webpack_require__(5);
-var utils = __webpack_require__(22);
+var utils = __webpack_require__(23);
 
 var SettingsView = function (_React$Component) {
 	_inherits(SettingsView, _React$Component);
@@ -37276,7 +37295,7 @@ var React = __webpack_require__(1);
 var ReactRedux = __webpack_require__(14);
 
 var AppPage = __webpack_require__(13);
-var Block = __webpack_require__(25);
+var Block = __webpack_require__(22);
 
 var consts = __webpack_require__(21);
 var store = __webpack_require__(5);
@@ -37419,7 +37438,7 @@ var AppPage = __webpack_require__(13);
 var SmallButton = __webpack_require__(29);
 var CommonButton = __webpack_require__(16);
 var RadioSelector = __webpack_require__(278);
-var Block = __webpack_require__(25);
+var Block = __webpack_require__(22);
 
 var browserService = __webpack_require__(18);
 var constsService = __webpack_require__(21);

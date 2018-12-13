@@ -1,17 +1,16 @@
 {
-	"manifest_version": 2,
-	"name": "GHTD",
-	"version": "0.1.5",
-	"author": "Lionel Mahistre",
-
-	"description": "Todo List",
-	"icons": {
-		"256": "img/favicon.png"
-	},
-
-	"browser_action": {
-		"default_icon": "img/favicon.png",
-		"default_title": "GHTD",
-		"default_popup": "index.html"
-	}
+  "short_name": "GHTD",
+  "name": "GHTD",
+  "icons": [
+    {
+      "src": "img/favicon.png",
+      "type": "image/png",
+      "sizes": "256x256"
+    }
+  ],
+  "start_url": "/app/ghtd",
+  "background_color": "#889",
+  "display": "standalone",
+  "scope": "/app/ghtd",
+  "theme_color": "#3367D6"
 }
