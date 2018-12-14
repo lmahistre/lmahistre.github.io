@@ -11,9 +11,9 @@ const STATICS_TO_PRELOAD = [
 ];
 
 self.addEventListener('install', function (event) {
+	const openCache = caches.open(CACHE_NAME);
 	event.waitUntil(
-		caches.open(CACHE_NAME)
-		.then(cache => cache.addAll(STATICS_TO_PRELOAD)
+		openCache.then(cache => cache.addAll(STATICS_TO_PRELOAD)
 			.then(self.skipWaiting)
 		)
 	);
