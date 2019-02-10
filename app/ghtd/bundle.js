@@ -5662,7 +5662,6 @@ exports.addTask = function(elt) {
 
 
 exports.updateTask = function(elt) {
-	// elt.timestampModified = parseInt(Date.now()/1000);
 	return {
 		type : 'SET_TASK',
 		task : elt,
@@ -9313,7 +9312,6 @@ const React = __webpack_require__(1);
 const ReactDOM = __webpack_require__(66);
 const Main = __webpack_require__(122);
 
-// const stateContainerService = require('./state-container.js');
 const constsService = __webpack_require__(21);
 
 /**
@@ -9359,11 +9357,6 @@ exports.render = function () {
 
 exports.redirect = function (uri) {
 	window.location.href = '#/'+uri;
-}
-
-
-exports.setBackgroundImage = function(url) {
-	document.getElementsByTagName('html')[0].style.backgroundImage = "url("+url+")";
 }
 
 
@@ -12174,41 +12167,15 @@ function decrypt (data, password) {
 "use strict";
 
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
 var React = __webpack_require__(1);
 
-var Row = function (_React$Component) {
-	_inherits(Row, _React$Component);
-
-	function Row() {
-		_classCallCheck(this, Row);
-
-		return _possibleConstructorReturn(this, (Row.__proto__ || Object.getPrototypeOf(Row)).apply(this, arguments));
-	}
-
-	_createClass(Row, [{
-		key: "render",
-		value: function render() {
-			// <div className="clearfix" />
-			return React.createElement(
-				"div",
-				{ className: "ui-tr content " + this.props.className },
-				this.props.children
-			);
-		}
-	}]);
-
-	return Row;
-}(React.Component);
-
-module.exports = Row;
+module.exports = function (props) {
+	return React.createElement(
+		"div",
+		{ className: "ui-tr content " + props.className },
+		props.children
+	);
+};
 
 /***/ }),
 /* 46 */
@@ -21185,7 +21152,7 @@ const browserService = __webpack_require__(18);
 window.onload = function () {
 	browserService.setTitle();
 	browserService.render();
-	browserService.addServiceWorker();
+	// browserService.addServiceWorker();
 }
 
 
@@ -21553,10 +21520,6 @@ var Main = function (_React$Component) {
 	_createClass(Main, [{
 		key: 'render',
 		value: function render() {
-			var state = store.getState();
-			if (state.settings && state.settings.backgroundImage && state.settings.backgroundImage.length > 0) {
-				browserService.setBackgroundImage(state.settings.backgroundImage);
-			}
 			return React.createElement(
 				ReactRedux.Provider,
 				{ store: store },
@@ -21888,12 +21851,8 @@ exports.SET_SETTINGS = function(state, action) {
 	newState.settings.gistId = action.settings.gistId;
 	newState.settings.token = action.settings.token;
 	newState.settings.language = action.settings.language;
-	newState.settings.theme = action.settings.theme;
 	if (action.settings.fileName) {
 		newState.settings.fileName = action.settings.fileName;
-	}
-	if (action.settings.backgroundImage) {
-		newState.settings.backgroundImage = action.settings.backgroundImage;
 	}
 	return newState;
 }
@@ -25088,7 +25047,7 @@ module.exports.makeKey = makeKey
 /* 174 */
 /***/ (function(module) {
 
-module.exports = {"_from":"elliptic@^6.0.0","_id":"elliptic@6.4.1","_inBundle":false,"_integrity":"sha512-BsXLz5sqX8OHcsh7CqBMztyXARmGQ3LWPtGjJi6DiJHq5C/qvi9P3OqgswKSDftbu8+IoI/QDTAm2fFnQ9SZSQ==","_location":"/elliptic","_phantomChildren":{},"_requested":{"type":"range","registry":true,"raw":"elliptic@^6.0.0","name":"elliptic","escapedName":"elliptic","rawSpec":"^6.0.0","saveSpec":null,"fetchSpec":"^6.0.0"},"_requiredBy":["/browserify-sign","/create-ecdh"],"_resolved":"https://registry.npmjs.org/elliptic/-/elliptic-6.4.1.tgz","_shasum":"c2d0b7776911b86722c632c3c06c60f2f819939a","_spec":"elliptic@^6.0.0","_where":"/home/lionel/projects/ghtd/node_modules/browserify-sign","author":{"name":"Fedor Indutny","email":"fedor@indutny.com"},"bugs":{"url":"https://github.com/indutny/elliptic/issues"},"bundleDependencies":false,"dependencies":{"bn.js":"^4.4.0","brorand":"^1.0.1","hash.js":"^1.0.0","hmac-drbg":"^1.0.0","inherits":"^2.0.1","minimalistic-assert":"^1.0.0","minimalistic-crypto-utils":"^1.0.0"},"deprecated":false,"description":"EC cryptography","devDependencies":{"brfs":"^1.4.3","coveralls":"^2.11.3","grunt":"^0.4.5","grunt-browserify":"^5.0.0","grunt-cli":"^1.2.0","grunt-contrib-connect":"^1.0.0","grunt-contrib-copy":"^1.0.0","grunt-contrib-uglify":"^1.0.1","grunt-mocha-istanbul":"^3.0.1","grunt-saucelabs":"^8.6.2","istanbul":"^0.4.2","jscs":"^2.9.0","jshint":"^2.6.0","mocha":"^2.1.0"},"files":["lib"],"homepage":"https://github.com/indutny/elliptic","keywords":["EC","Elliptic","curve","Cryptography"],"license":"MIT","main":"lib/elliptic.js","name":"elliptic","repository":{"type":"git","url":"git+ssh://git@github.com/indutny/elliptic.git"},"scripts":{"jscs":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","jshint":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","lint":"npm run jscs && npm run jshint","test":"npm run lint && npm run unit","unit":"istanbul test _mocha --reporter=spec test/index.js","version":"grunt dist && git add dist/"},"version":"6.4.1"};
+module.exports = {"_args":[["elliptic@6.4.1","/home/lionel/projects/ghtd"]],"_development":true,"_from":"elliptic@6.4.1","_id":"elliptic@6.4.1","_inBundle":false,"_integrity":"sha512-BsXLz5sqX8OHcsh7CqBMztyXARmGQ3LWPtGjJi6DiJHq5C/qvi9P3OqgswKSDftbu8+IoI/QDTAm2fFnQ9SZSQ==","_location":"/elliptic","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"elliptic@6.4.1","name":"elliptic","escapedName":"elliptic","rawSpec":"6.4.1","saveSpec":null,"fetchSpec":"6.4.1"},"_requiredBy":["/browserify-sign","/create-ecdh"],"_resolved":"https://registry.npmjs.org/elliptic/-/elliptic-6.4.1.tgz","_spec":"6.4.1","_where":"/home/lionel/projects/ghtd","author":{"name":"Fedor Indutny","email":"fedor@indutny.com"},"bugs":{"url":"https://github.com/indutny/elliptic/issues"},"dependencies":{"bn.js":"^4.4.0","brorand":"^1.0.1","hash.js":"^1.0.0","hmac-drbg":"^1.0.0","inherits":"^2.0.1","minimalistic-assert":"^1.0.0","minimalistic-crypto-utils":"^1.0.0"},"description":"EC cryptography","devDependencies":{"brfs":"^1.4.3","coveralls":"^2.11.3","grunt":"^0.4.5","grunt-browserify":"^5.0.0","grunt-cli":"^1.2.0","grunt-contrib-connect":"^1.0.0","grunt-contrib-copy":"^1.0.0","grunt-contrib-uglify":"^1.0.1","grunt-mocha-istanbul":"^3.0.1","grunt-saucelabs":"^8.6.2","istanbul":"^0.4.2","jscs":"^2.9.0","jshint":"^2.6.0","mocha":"^2.1.0"},"files":["lib"],"homepage":"https://github.com/indutny/elliptic","keywords":["EC","Elliptic","curve","Cryptography"],"license":"MIT","main":"lib/elliptic.js","name":"elliptic","repository":{"type":"git","url":"git+ssh://git@github.com/indutny/elliptic.git"},"scripts":{"jscs":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","jshint":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","lint":"npm run jscs && npm run jshint","test":"npm run lint && npm run unit","unit":"istanbul test _mocha --reporter=spec test/index.js","version":"grunt dist && git add dist/"},"version":"6.4.1"};
 
 /***/ }),
 /* 175 */
@@ -35261,8 +35220,8 @@ exports.task = function (obj) {
 		name : obj.name,
 		projectId : obj.projectId,
 		status : obj.status,
-		timestampCreated : isNaN(obj.timestampCreated) ? 0 : obj.timestampCreated,
-		timestampModified : isNaN(obj.timestampModified) ? 0 : obj.timestampModified,
+		timestampCreated : isNaN(obj.timestampCreated) ? parseInt(Date.now()/1000) : obj.timestampCreated,
+		timestampModified : isNaN(obj.timestampModified) ? parseInt(Date.now()/1000) : obj.timestampModified,
 	}
 }
 
@@ -35276,8 +35235,8 @@ exports.project = function (obj) {
 		provider : obj.provider,
 		repo : obj.repo,
 		status : obj.status && ['active', 'removed'].indexOf(obj.status) ? obj.status : 'active',
-		timestampCreated : isNaN(obj.timestampCreated) ? 0 : obj.timestampCreated,
-		timestampModified : isNaN(obj.timestampModified) ? 0 : obj.timestampModified,
+		timestampCreated : isNaN(obj.timestampCreated) ? parseInt(Date.now()/1000) : obj.timestampCreated,
+		timestampModified : isNaN(obj.timestampModified) ? parseInt(Date.now()/1000) : obj.timestampModified,
 	}
 }
 
@@ -35838,7 +35797,6 @@ var TaskEdit = function (_React$Component) {
 		key: 'render',
 		value: function render() {
 			var task = this.props.tasks[this.props.match.params.id];
-			// let project = task.projectId ? this.props.projects[task.projectId] : null;
 			var projectList = [{
 				id: 0,
 				name: ''
@@ -37097,20 +37055,6 @@ var SettingsView = function (_React$Component) {
 							React.createElement(
 								"div",
 								{ className: "td", "data-column": "label" },
-								L("Theme")
-							),
-							React.createElement(
-								"div",
-								{ className: "td", "data-column": "value" },
-								L(themeLabel)
-							)
-						),
-						React.createElement(
-							"div",
-							{ className: "view-row" },
-							React.createElement(
-								"div",
-								{ className: "td", "data-column": "label" },
 								L("Language")
 							),
 							React.createElement(
@@ -37173,20 +37117,6 @@ var SettingsView = function (_React$Component) {
 								"div",
 								{ className: "td", "data-column": "value" },
 								settings.fileName
-							)
-						),
-						React.createElement(
-							"div",
-							{ className: "view-row" },
-							React.createElement(
-								"div",
-								{ className: "td", "data-column": "label" },
-								L("Background image")
-							),
-							React.createElement(
-								"div",
-								{ className: "td", "data-column": "value" },
-								settings.backgroundImage
 							)
 						)
 					)
@@ -37319,7 +37249,7 @@ module.exports = store.connect(function (props) {
 					React.createElement(
 						"h2",
 						null,
-						"Stockage desdonnées"
+						"Stockage des données"
 					),
 					React.createElement(
 						"p",
@@ -37356,7 +37286,45 @@ module.exports = store.connect(function (props) {
 							"Un jeton qui permet à l'application d'accéder aux Gists."
 						)
 					),
-					React.createElement("p", null)
+					React.createElement(
+						"h2",
+						null,
+						"Paramètres"
+					),
+					React.createElement(
+						"p",
+						null,
+						"Paramètres disponibles :"
+					),
+					React.createElement(
+						"ul",
+						null,
+						React.createElement(
+							"li",
+							null,
+							"Langue : langue de l'interface (français ou anglais)"
+						),
+						React.createElement(
+							"li",
+							null,
+							"Utilisateur : nom d'utilisateur du compte GitHub"
+						),
+						React.createElement(
+							"li",
+							null,
+							"ID du Gist : identifiant du Gist utilisé pour stocker les données"
+						),
+						React.createElement(
+							"li",
+							null,
+							"Jeton : jeton utilisé pour accéder aux Gists. Le jeton nécessite seulement l'accès aux Gists"
+						),
+						React.createElement(
+							"li",
+							null,
+							"Nom de fichier : fichier du Gist pour stocker les données, 'ghtd.json' par défaut"
+						)
+					)
 				)
 			)
 		);
@@ -37409,7 +37377,45 @@ module.exports = store.connect(function (props) {
 							"A token to access Gist data."
 						)
 					),
-					React.createElement("p", null)
+					React.createElement(
+						"h2",
+						null,
+						"Settings"
+					),
+					React.createElement(
+						"p",
+						null,
+						"Available settings:"
+					),
+					React.createElement(
+						"ul",
+						null,
+						React.createElement(
+							"li",
+							null,
+							"Language: interface language (English or French)"
+						),
+						React.createElement(
+							"li",
+							null,
+							"User: user name of GitHub account"
+						),
+						React.createElement(
+							"li",
+							null,
+							"Gist ID: identifier of the Gist used to store data"
+						),
+						React.createElement(
+							"li",
+							null,
+							"Token: token used to access Gist data. This token only requires access to Gists"
+						),
+						React.createElement(
+							"li",
+							null,
+							"File name: name of the file used to store data inside the Gist, 'ghtd.json' by default"
+						)
+					)
 				)
 			)
 		);
@@ -37459,15 +37465,12 @@ var SettingsEdit = function (_React$Component) {
 		key: "save",
 		value: function save() {
 			var settings = {};
-			settings.theme = document.getElementById('settings-theme').value;
 			settings.language = document.getElementById('language').value;
 			settings.user = document.getElementById('settings-user').value;
 			settings.token = document.getElementById('settings-token').value;
 			settings.gistId = document.getElementById('settings-gistId').value;
 			settings.fileName = document.getElementById('settings-fileName').value;
-			settings.backgroundImage = document.getElementById('settings-backgroundImage').value;
 			store.dispatch(reduxActions.updateSettings(settings));
-			browserService.setBackgroundImage(settings.backgroundImage);
 			browserService.redirect('settings');
 		}
 	}, {
@@ -37500,33 +37503,6 @@ var SettingsEdit = function (_React$Component) {
 					React.createElement(
 						"div",
 						{ className: "form-table", "data-table": "settings-list" },
-						React.createElement(
-							"div",
-							{ className: "view-row" },
-							React.createElement(
-								"div",
-								{ "data-column": "label" },
-								L("Theme")
-							),
-							React.createElement(
-								"div",
-								{ "data-column": "value" },
-								React.createElement(
-									RadioSelector,
-									{ id: "settings-theme", value: settings.theme },
-									React.createElement(
-										"option",
-										{ value: "light" },
-										L("Light")
-									),
-									React.createElement(
-										"option",
-										{ value: "dark" },
-										L("Dark")
-									)
-								)
-							)
-						),
 						React.createElement(
 							"div",
 							{ className: "view-row" },
@@ -37605,20 +37581,6 @@ var SettingsEdit = function (_React$Component) {
 								"div",
 								{ "data-column": "value" },
 								React.createElement("input", { name: "token", id: "settings-fileName", type: "text", defaultValue: settings.fileName, onKeyDown: this.handleInputKeyDown.bind(this) })
-							)
-						),
-						React.createElement(
-							"div",
-							{ className: "view-row" },
-							React.createElement(
-								"div",
-								{ "data-column": "label" },
-								L("Background image")
-							),
-							React.createElement(
-								"div",
-								{ "data-column": "value" },
-								React.createElement("input", { name: "token", id: "settings-backgroundImage", type: "text", defaultValue: settings.backgroundImage, onKeyDown: this.handleInputKeyDown.bind(this) })
 							)
 						)
 					)

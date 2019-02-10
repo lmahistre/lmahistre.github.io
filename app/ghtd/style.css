@@ -1,10 +1,7 @@
-html {
-  background-color: #889;
-  background-attachment: fixed;
-}
 html body {
+  background-color: #333;
   font-family: Arial, sans-serif;
-  font-size: 15px;
+  font-size: 16px;
   padding-top: 0px;
   padding-bottom: 0px;
   padding-left: 0px;
@@ -19,19 +16,30 @@ html body {
   overflow-y: scroll;
 }
 html body #react-root .app-container {
-  color: #111;
-  padding-top: 30px;
+  color: #EEE;
+  padding-top: 34px;
   margin-left: auto;
   margin-right: auto;
 }
 html body #react-root .app-container .text-page {
   margin: 8px;
 }
-html body #react-root .app-container h2 {
+html body #react-root .app-container .text-page h2 {
   margin-bottom: 12px;
 }
-html body #react-root .app-container p {
+html body #react-root .app-container .text-page p {
   margin-top: 12px;
+  margin-bottom: 0px;
+  line-height: 24px;
+}
+html body #react-root .app-container .text-page ul {
+  margin: 0px;
+}
+html body #react-root .app-container .text-page ul li {
+  line-height: 24px;
+}
+html body #react-root .app-container a {
+  color: #8BF;
 }
 html body #react-root .app-container a.common-button {
   text-decoration: none;
@@ -44,6 +52,9 @@ html body #react-root .app-container a.common-button {
 }
 html body #react-root .app-container a.common-button:hover {
   background-color: #8AE;
+}
+html body #react-root .app-container .content {
+  background-color: rgba(0, 0, 0, 0.5);
 }
 html body #react-root .app-container a.small-button {
   color: #000;
@@ -109,10 +120,10 @@ html body #react-root .app-container div.menu {
 html body #react-root .app-container div.menu .menu-entry {
   background-color: rgba(204, 204, 204, 0.8);
   display: inline-block;
-  width: 76px;
+  width: 80px;
   text-decoration: none;
   color: #000;
-  padding: 6px 6px;
+  padding: 8px 8px;
   text-align: center;
   line-height: 18px;
 }
@@ -126,18 +137,18 @@ html body #react-root .app-container div.menu .sync-indicator {
   color: #000;
   display: inline-block;
   background-color: #888;
-  width: 18px;
+  width: 22px;
   padding: 6px 6px;
   cursor: pointer;
   vertical-align: bottom;
   text-decoration: none;
 }
 html body #react-root .app-container div.menu .sync-indicator span {
-  font-size: 18px;
-  line-height: 18px;
+  font-size: 22px;
+  line-height: 22px;
   display: block;
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
 }
 html body #react-root .app-container div.menu .sync-indicator.connected {
   background-color: #0A0;
@@ -195,6 +206,7 @@ html body #react-root .app-container .radio-selector .radio-selector-elt {
   margin: 2px 2px;
   border-radius: 2px;
   padding: 4px 8px;
+  color: #EEE;
 }
 html body #react-root .app-container .radio-selector .radio-selector-elt[data-selected=selected] {
   color: #111;
@@ -208,13 +220,17 @@ html body #react-root .app-container input[type=text] {
   border-style: solid;
   border-width: 1px;
   border-radius: 4px;
+  background-color: #444;
+  border-color: transparent;
   box-sizing: border-box;
   padding: 4px 8px;
-  border-color: #CCC;
-  color: #111;
-  font-size: 15px;
+  color: #EEE;
+  font-size: 16px;
   font-family: Arial, sans-serif;
   outline: none;
+}
+html body #react-root .app-container input[type=text] {
+  color: #EEE;
 }
 html body #react-root .app-container select {
   -webkit-appearance: none;
@@ -225,15 +241,17 @@ html body #react-root .app-container select {
   background-position-x: right;
   background-position-y: center;
   height: 24px;
-  background-color: #222;
   border-width: 1px;
   border-type: solid;
   border-radius: 4px;
   padding: 1px 2px;
   margin: 1px 2px;
+  color: #EEE;
+  background-image: url("img/arrow-white.png");
 }
 html body #react-root .app-container select option {
   height: 24px;
+  color: #EEE;
 }
 html body #react-root .app-container .project-label {
   line-height: 18px;
@@ -247,6 +265,8 @@ html body #react-root .app-container .project-label {
 }
 html body #react-root .app-container select.project-label {
   width: 100%;
+  height: 27px;
+  margin: 0px;
 }
 html body #react-root .app-container div.new-task-form {
   padding: 2px 4px;
@@ -294,7 +314,7 @@ html body #react-root .app-container .view-table input[type=text] {
   width: 100%;
 }
 html body #react-root .app-container .view-table .view-row {
-  padding: 2px 4px;
+  padding: 4px 4px;
 }
 html body #react-root .app-container .view-table .view-row div[data-column=label] {
   display: inline-block;
@@ -340,6 +360,9 @@ html body #react-root .app-container .page-content {
   padding-right: 4px;
   padding-top: 4px;
   padding-bottom: 4px;
+}
+html body #react-root .app-container .__react_component_tooltip {
+  font-size: 16px;
 }
 div[data-table=task-list] div.td[data-column=actions] {
   width: 84px;
@@ -2634,55 +2657,4 @@ div[data-table=import-project-list] div.td[data-column=actions] {
   margin: 0;
   overflow: visible;
   clip: auto;
-}
-html body #react-root .app-container[data-theme=light] {
-  color: #111;
-}
-html body #react-root .app-container[data-theme=light] .content {
-  background-color: rgba(255, 255, 255, 0.5);
-}
-html body #react-root .app-container[data-theme=light] select {
-  color: #111;
-  background-color: rgba(224, 224, 224, 0.5);
-  background-image: url("img/arrow-black.png");
-  border-color: #BBB;
-}
-html body #react-root .app-container[data-theme=light] select option {
-  color: #111;
-  background-color: rgba(224, 224, 224, 0.5);
-}
-html body #react-root .app-container[data-theme=light] input[type=text] {
-  border-color: #BBB;
-  color: #111;
-  background-color: rgba(224, 224, 224, 0.5);
-}
-html body #react-root .app-container[data-theme=light] .radio-selector .radio-selector-elt {
-  color: #111;
-}
-html body #react-root .app-container[data-theme=dark] {
-  color: #EEE;
-}
-html body #react-root .app-container[data-theme=dark] .content {
-  background-color: rgba(0, 0, 0, 0.5);
-}
-html body #react-root .app-container[data-theme=dark] select {
-  color: #EEE;
-  background-color: rgba(32, 32, 32, 0.5);
-  background-image: url("img/arrow-white.png");
-  border-color: #444;
-}
-html body #react-root .app-container[data-theme=dark] select option {
-  color: #EEE;
-  background-color: rgba(32, 32, 32, 0.5);
-}
-html body #react-root .app-container[data-theme=dark] input[type=text] {
-  border-color: #444;
-  color: #EEE;
-  background-color: rgba(32, 32, 32, 0.5);
-}
-html body #react-root .app-container[data-theme=dark] .radio-selector .radio-selector-elt {
-  color: #EEE;
-}
-html body #react-root .app-container[data-theme=dark] .radio-selector .radio-selector-elt[data-selected=selected] {
-  color: #111;
 }

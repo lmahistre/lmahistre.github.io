@@ -12,10 +12,25 @@
 					<div class="readme">
 						<article class="markdown-body">
 							<h1 id="hexconverter">Hexconverter</h1>
-<p>Cette extension convertit instantanément des chiffres dans différents format : décimal, binaire, octal, hexadécimal et couleurs au format RGB.</p>
+<h2 id="utilisation">Utilisation</h2>
+<p>Cette extension convertit instantanément des chiffres dans différents format : décimal, binaire, octal, hexadécimal et en base 256.</p>
 <p>Si la valeur hexadécimale correspond à une couleur, cette couleur est affichée au format RGB décimal et un indicateur affiche le rendu de la couleur. Si il existe une couleur HTML correspondante, son nom est affiché.</p>
 <p>Il est possible d&#39;ouvrir le convertisseur dans une fenêtre séparée pour éviter de perdre les données entrées.</p>
 <p>Page de l&#39;extension : <a href="https://addons.mozilla.org/firefox/addon/hexconverter/">https://addons.mozilla.org/firefox/addon/hexconverter/</a></p>
+<h2 id="d-veloppement">Développement</h2>
+<p>Le Javascript est réalisée avec <a href="https://reactjs.org">React</a> et est dans un bundle créé grâce à <a href="https://webpack.js.org">Webpack</a>.</p>
+<p>Installer d&#39;abord les dépendances:</p>
+<p><code>npm install</code></p>
+<p>Pour compiler les fichiers Javascript et CSS :</p>
+<p><code>npm run dev</code></p>
+<p>Pour lancer les tests unitaires :</p>
+<p><code>npm test</code></p>
+<p>Pour construire les fichiers Javascript et CSS et lancer les tests unitaires :</p>
+<p><code>npm run build</code></p>
+<p>Pour créer les archives qui contiennent le code de l&#39;addon et le code source :</p>
+<p><code>npm run publish</code></p>
+<p>Les fichiers source Javascript et LESS sont dans le dossier <code>src</code>. Les fichiers générés sont dans le dossier <code>build</code>. Il y a 2 fichiers générés : <code>hexc.js</code> et <code>hexc.css</code>.</p>
+<p>Le package pour l&#39;addon est fait à partir du dosser <code>build</code>, il contient les fichiers statiques, le manifest et l&#39;HTML.</p>
 
 						</article>
 					</div>

@@ -1,17 +1,19 @@
 const CACHE_NAME = 'ghtd';
 
 const STATICS_TO_PRELOAD = [
-	'img/arrow-black.png',
-	'img/arrow-white.png',
-	'style.css',
+	// 'img/favicon.png',
+	// 'img/arrow-black.png',
+	// 'img/arrow-white.png',
+	// 'style.css',
 	'index.html',
-	'bundle.js',
-	'fonts/fontawesome-webfont.ttf',
+	// 'bundle.js',
+	// 'fonts/fontawesome-webfont.ttf',
 ];
 
 self.addEventListener('install', function (event) {
 	event.waitUntil(
-		caches.open(CACHE_NAME).then(cache => cache.addAll(STATICS_TO_PRELOAD)
+		caches.open(CACHE_NAME)
+		.then(cache => cache.addAll(STATICS_TO_PRELOAD)
 			.then(self.skipWaiting)
 		)
 	);
