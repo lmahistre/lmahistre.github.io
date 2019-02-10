@@ -1,0 +1,10 @@
+{
+  "short_name": "Apps",
+  "name": "Apps",
+  "icons": [],
+  "start_url": "/",
+  "background_color": "#223",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#223"
+}

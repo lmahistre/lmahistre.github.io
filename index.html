@@ -6,6 +6,19 @@
 				<link rel="stylesheet" type="text/css" href="/shared/style.css">
 				<meta name="viewport" content="width=device-width, initial-scale=1">
 				<meta charset="utf-8">
+				<link rel="manifest" href="manifest.json">
+				<script type="text/javascript">
+					if ('serviceWorker' in navigator) {
+						navigator.serviceWorker
+						.register('/sw.js')
+						.then(function(registration) {
+							console.log('Service Worker registration complete.');
+						})
+						.catch(function(error) {
+							console.log('Service Worker registration failure.', error);
+						});
+					}
+				</script>
 			</head>
 			<body>
 				<div class="container">
