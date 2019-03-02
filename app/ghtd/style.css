@@ -45,7 +45,7 @@ html body #react-root .app-container a.common-button {
   text-decoration: none;
   color: #000;
   background-color: #8BF;
-  padding: 4px 8px;
+  padding: 6px 12px;
   display: inline-block;
   border-radius: 2px;
   margin: 2px 4px;
@@ -158,6 +158,9 @@ html body #react-root .app-container div.menu .sync-indicator.sync-dirty {
 }
 html body #react-root .app-container div.menu .sync-indicator.busy {
   background-color: #F00;
+}
+html body #react-root .app-container div.alerts {
+  padding-top: 4px;
 }
 html body #react-root .app-container div.alerts .alert {
   margin: 4px 8px 0px 8px;
@@ -358,7 +361,7 @@ html body #react-root .app-container div.form-table div.view-row div[data-column
 html body #react-root .app-container .page-content {
   padding-left: 4px;
   padding-right: 4px;
-  padding-top: 4px;
+  padding-top: 6px;
   padding-bottom: 4px;
 }
 html body #react-root .app-container .__react_component_tooltip {

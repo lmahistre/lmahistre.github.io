@@ -3018,25 +3018,27 @@
 }
 body {
   font-family: sans-serif;
+  background-color: #111;
+  color: #EEE;
 }
-div.glyph {
+body div.glyph {
   display: inline-block;
   width: 250px;
   height: 30px;
-  background-color: #EEF;
+  background-color: #223;
   margin: 2px;
   overflow: hidden;
   border-radius: 2px;
   vertical-align: middle;
 }
-div.glyph span.fa,
-div.glyph span.gi {
+body div.glyph span.fa,
+body div.glyph span.gi {
   font-size: 24px;
   display: inline-block;
   width: 40px;
   vertical-align: middle;
 }
-div.glyph label {
+body div.glyph label {
   font-size: 14px;
   display: inline-block;
   text-overflow: ellipsis;
@@ -3045,7 +3047,17 @@ div.glyph label {
   vertical-align: middle;
   line-height: 30px;
 }
-div.header > * {
+body div.header > * {
   display: inline-block;
+}
+body input {
+  background-color: #223;
+  color: #EEE;
+  font-size: 14px;
+  border-width: 1px;
+  border-color: #CCC;
+  border-style: solid;
+  border-radius: 4px;
+  padding: 2px 4px;
 }
 

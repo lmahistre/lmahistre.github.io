@@ -1,0 +1,346 @@
+body {
+  background-color: #000;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: #EEE;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+  overflow-y: scroll;
+}
+body div.please-wait {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.3);
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+body div.please-wait div.block {
+  text-align: center;
+  border-style: groove;
+  border-width: 1px;
+  border-color: #F00;
+  border-radius: 4px;
+  opacity: 0.9;
+  background: rgba(0, 0, 32, 0.5);
+  width: 100px;
+  margin: 100px auto;
+  padding: 4px;
+}
+body div#application-container {
+  margin-top: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  background-color: rgba(0, 0, 0, 0.2);
+  min-height: 100%;
+}
+body div#application-container a.btn {
+  display: inline-block;
+  padding: 4px 8px;
+  margin: 4px;
+  border-style: groove;
+  border-width: 1px;
+  border-color: #0CF;
+  border-radius: 4px;
+  background-color: rgba(96, 0, 96, 0.6);
+  cursor: pointer;
+  outline: none;
+}
+body div#application-container a.btn:hover {
+  background-color: #ff8000;
+  border-style: ridge;
+  color: #FFF;
+}
+body div#application-container a.game-btn {
+  display: inline-block;
+  padding: 2px;
+  margin: 4px;
+  border-style: groove;
+  border-width: 1px;
+  border-color: #0CF;
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  outline: none;
+  width: 32px;
+  height: 32px;
+}
+body div#application-container a.game-btn:hover {
+  border-style: ridge;
+}
+body div#application-container a.game-btn img {
+  width: 32px;
+  height: 32px;
+}
+body div#application-container table.list {
+  width: 100%;
+  border-style: groove;
+  border-width: 1px;
+  border-color: #0CF;
+  border-radius: 4px;
+}
+body div#application-container table.list tr:hover {
+  background-color: rgba(0, 32, 32, 0.6);
+}
+body div#application-container div.bar {
+  border-style: groove;
+  border-width: 1px;
+  border-color: #0CF;
+  border-radius: 4px;
+  opacity: 0.9;
+  background: rgba(0, 0, 32, 0.6);
+  margin: 4px;
+  padding: 4px;
+}
+body div#application-container div.bar span.info_title {
+  margin-left: 10px;
+  padding-left: 12px;
+  color: #EEE;
+}
+body div#application-container div.bar span.info_value {
+  color: #AEA;
+  padding-left: 6px;
+}
+body div#application-container div.bar span.app_info {
+  color: #888;
+}
+body div#application-container div.game-block {
+  display: block;
+  vertical-align: top;
+  width: calc(100% - 10px);
+  border-style: groove;
+  border-width: 1px;
+  border-color: #0CF;
+  border-radius: 4px;
+  opacity: 0.9;
+  background: rgba(0, 0, 32, 0.5);
+  margin: 4px;
+}
+body div#application-container div.game-block[data-column=left] {
+  float: left;
+}
+body div#application-container div.game-block[data-column=right] {
+  float: right;
+}
+@media (min-width: 768px) {
+  body div#application-container div.game-block {
+    width: calc(50% - 10px);
+  }
+}
+body div#application-container div.game-block div.block-body {
+  padding: 4px;
+}
+body div#application-container div.game-block div.block-title {
+  background-color: rgba(51, 68, 85, 0.7);
+  margin: 0px;
+  padding: 0px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+body div#application-container div.game-block div.block-title h2 {
+  margin: 0px;
+  padding: 2px 8px;
+  font-size: 14px;
+  font-weight: bold;
+}
+body table.form-table {
+  width: 100%;
+  border-style: groove;
+  border-width: 1px;
+  border-color: #0CF;
+  border-radius: 4px;
+}
+body table.form-table td.label {
+  width: 20%;
+  padding: 4px 8px;
+}
+body table.form-table td.value {
+  width: 80%;
+}
+body table.form-table td.value select {
+  color: #EEE;
+  background-color: rgba(0, 0, 16, 0.6);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 100%;
+  border-style: groove;
+  border-width: 1px;
+  border-color: #0CF;
+  border-radius: 4px;
+  height: 24px;
+}
+body table.form-table td.value select option {
+  color: #EEE;
+  background-color: rgba(0, 0, 16, 0.6);
+  padding: 4px;
+  height: 24px;
+}
+body table.form-table td.value input,
+body table.form-table td.value input[type=text],
+body table.form-table td.value input[type=password] {
+  color: #EEE;
+  background-color: rgba(0, 0, 16, 0.6);
+  width: 100%;
+  border-style: groove;
+  border-width: 1px;
+  border-color: #0CF;
+  border-radius: 4px;
+  padding: 4px 8px;
+  box-sizing: border-box;
+}
+body span.indicator {
+  margin: 4px 4px;
+  display: inline-block;
+  background-color: rgba(96, 0, 96, 0.6);
+  border-radius: 4px;
+  padding: 4px 8px;
+}
+body span.indicator label {
+  margin-right: 6px;
+}
+body span.indicator span.value {
+  font-weight: bold;
+  color: #EEE;
+  white-space: nowrap;
+}
+body span.indicator span.value.value-red {
+  color: #F88;
+}
+body span.indicator span.value.value-blue {
+  color: #88F;
+}
+body span.indicator span.value.value-teal {
+  color: #8F8;
+}
+body span.indicator span.value.value-yellow {
+  color: #FF8;
+}
+body span.indicator span.value.value-white {
+  color: #EEE;
+}
+body span.indicator span.value.value-brown {
+  color: #EA8;
+}
+body span.indicator span.value.value-orange {
+  color: #FB8;
+}
+body span.indicator span.value.value-purple {
+  color: #F8F;
+}
+body table.detail-table {
+  width: 100%;
+  border-style: groove;
+  border-width: 1px;
+  border-color: #0CF;
+  border-radius: 4px;
+}
+body .building {
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgba(255, 255, 255, 0.4);
+  width: 192px;
+  margin: 1px;
+  float: left;
+}
+body .building img.building-code {
+  width: 40px;
+  height: 40px;
+  float: left;
+}
+body .building .building-info {
+  float: left;
+  padding-left: 2px;
+  padding-right: 0px;
+}
+body .building .building-info .building-name {
+  width: 150px;
+  white-space: nowrap;
+  overflow-x: hidden;
+  line-height: 22px;
+  vertical-align: middle;
+}
+body .building .building-info .building-build-time {
+  color: #08F;
+  font-weight: bolder;
+  letter-spacing: -2px;
+  font-size: 30px;
+  height: 18px;
+  display: block;
+  overflow-y: hidden;
+}
+body .building .game-hp-bar {
+  background-color: #000;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #AAA;
+  width: 148px;
+  text-align: center;
+}
+body .building .game-hp-bar .color-sprite {
+  height: 16px;
+}
+body .building .game-hp-bar .game-hp-bar-text {
+  margin-top: -17px;
+}
+body .attack-info-unit {
+  display: inline-block;
+}
+body .attack-info-unit img.attack-unit-code {
+  width: 40px;
+  height: 40px;
+}
+body .attack-info-unit .game-mini-hp-bar {
+  background-color: #000;
+  border-width: 0px;
+  border-style: solid;
+  border-color: #AAA;
+  width: 40px;
+  height: 4px;
+  text-align: center;
+}
+body .attack-info-unit .game-mini-hp-bar .color-sprite {
+  height: 4px;
+}
+body div.alert.error {
+  color: #F88;
+}
+body div.alert.warning {
+  color: #FF8;
+}
+body div.alert.info {
+  color: #8F8;
+}
+body div.alert span.turn {
+  margin-right: 8px;
+  width: 40px;
+  display: inline-block;
+}
+body div.alert span.message {
+  display: inline-block;
+}
+body div.veil {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transition: background-color 1000ms linear;
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+a {
+  color: #EEE;
+  text-decoration: none;
+}
+.clearfix {
+  clear: both;
+}

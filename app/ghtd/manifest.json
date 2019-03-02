@@ -24,7 +24,7 @@
     }
   ],
   "start_url": "/app/ghtd",
-  "background_color": "#889",
+  "background_color": "#111",
   "display": "standalone",
   "scope": "/app/ghtd",
   "theme_color": "#3367D6"
