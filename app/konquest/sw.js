@@ -1,13 +1,15 @@
-const CACHE_NAME = 'ghtd';
+const CACHE_NAME = 'konquest';
 
 const STATICS_TO_PRELOAD = [
-	// 'img/favicon.png',
-	// 'img/arrow-black.png',
-	// 'img/arrow-white.png',
-	// 'style.css',
 	'index.html',
-	// 'bundle.js',
-	// 'fonts/fontawesome-webfont.ttf',
+	'style.css',
+	'app.js',
+	'img/icon/32.png',
+	'img/icon/64.png',
+	'img/icon/128.png',
+	'img/icon/256.png',
+	'img/icon/512.png',
+	'fonts/glyphicons-halflings-regular.ttf',
 ];
 
 self.addEventListener('install', function (event) {

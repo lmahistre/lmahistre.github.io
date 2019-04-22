@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 9);
+/******/ 	return __webpack_require__(__webpack_require__.s = 10);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -92,26 +92,12 @@
 
 
 if (true) {
-  module.exports = __webpack_require__(10);
+  module.exports = __webpack_require__(12);
 } else {}
 
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var React = __webpack_require__(0);
-
-module.exports = function (props) {
-  return React.createElement("a", {
-    href: "javascript:void(0);",
-    className: "btn",
-    onClick: props.onClick
-  }, props.children);
-};
-
-/***/ }),
-/* 2 */
 /***/ (function(module, exports) {
 
 exports.color = {
@@ -169,11 +155,155 @@ exports.color = {
 
 exports.maxPlayer = 9;
 
+exports.planetNames = [
+	'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH', 'AI', 'AJ', 'AK', 'AL', 'AM',
+	'AN', 'AO', 'AP', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AV', 'AW', 'AX', 'AY', 'AZ',
+	'BA', 'BB', 'BC', 'BD', 'BE', 'BF', 'BG', 'BH', 'BI', 'BJ', 'BK', 'BL', 'BM',
+	'BN', 'BO', 'BP', 'BQ', 'BR', 'BS', 'BT', 'BU', 'BV', 'BW', 'BX', 'BY', 'BZ',
+	'CA', 'CB', 'CC', 'CD', 'CE', 'CF', 'CG', 'CH', 'CI', 'CJ', 'CK', 'CL', 'CM',
+	'CN', 'CO', 'CP', 'CQ', 'CR', 'CS', 'CT', 'CU', 'CV', 'CW', 'CX', 'CY', 'CZ',
+	'DA', 'DB', 'DC', 'DD', 'DE', 'DF', 'DG', 'DH', 'DI', 'DJ', 'DK', 'DL', 'DM',
+	'DN', 'DO', 'DP', 'DQ', 'DR', 'DS', 'DT', 'DU', 'DV', 'DW', 'DX', 'DY', 'DZ',
+	'EA', 'EB', 'EC', 'ED', 'EE', 'EF', 'EG', 'EH', 'EI', 'EJ', 'EK', 'EL', 'EM',
+	'EN', 'EO', 'EP', 'EQ', 'ER', 'ES', 'ET', 'EU', 'EV', 'EW', 'EX', 'EY', 'EZ',
+];
+
+exports.planetImages = [
+	'00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12',
+	'13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25',
+	'26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38',
+	'39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49',
+];
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports) {
+
+const prefix = 'kq_';
+
+const menuParams = {};
+let games = [];
+
+const nextGameId = function () {
+	const settings = exports.getMenuParams();
+	settings.currentGameId++;
+	const id = settings.currentGameId;
+	exports.setMenuParams('currentGameId', id);
+	return id;
+}
+
+exports.getMenuParams = function () {
+	if (localStorage[prefix+'menu_params']) {
+		try {
+			const jd = JSON.parse(localStorage[prefix+'menu_params']);
+			return jd;
+		}
+		catch (error) {
+			return {};
+		}
+	}
+	return {};
+}
+
+exports.setMenuParams = function (params) {
+	const menuParams = exports.getMenuParams();
+	if (params.players) {
+		menuParams.players = params.players;
+	}
+	if (params.planet) {
+		menuParams.planet = params.planet;
+	}
+	if (params.column) {
+		menuParams.column = params.column;
+	}
+	if (params.row) {
+		menuParams.row = params.row;
+	}
+	// TODO: voir si c'est utile
+	if (params.rows) {
+		menuParams.rows = params.rows;
+	}
+	if (params.currentGameId) {
+		menuParams.currentGameId = params.currentGameId;
+	}
+	localStorage[prefix+'menu_params'] = JSON.stringify(menuParams);
+}
+
+exports.getAllGames = function() {
+	const games = [];
+	for (let k in localStorage) {
+		if (k.indexOf(prefix+'game_') === 0) {
+			try {
+				const game = JSON.parse(localStorage[k]);
+				games.push(game);
+			}
+			catch (error) {}
+		}
+	}
+	return games;
+}
+
+exports.createGame = function (data) {
+	data.id = nextGameId();
+	exports.saveGame(data);
+	return data.id;
+}
+
+exports.loadGame = function (id) {
+	if (localStorage[prefix+'game_'+id]) {
+		try {
+			return JSON.parse(localStorage[prefix+'game_'+id]);
+		}
+		catch (error) {
+			return false;
+		}
+	}
+	return false;
+}
+
+exports.saveGame = function (data) {
+	if (data) {
+		localStorage[prefix+'game_'+data.id] = JSON.stringify(data);
+	}
+}
+
+
 /***/ }),
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const consts = __webpack_require__(2);
+var React = __webpack_require__(0);
+
+module.exports = function (props) {
+  return React.createElement("a", {
+    href: "javascript:void(0);",
+    className: "btn",
+    onClick: props.onClick
+  }, props.children);
+};
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var React = __webpack_require__(0);
+
+module.exports = function (props) {
+  return React.createElement("a", {
+    href: "javascript:void(0);",
+    onClick: props.onClick,
+    className: "small-btn",
+    onKeyDown: props.onKeyDown
+  }, React.createElement("span", {
+    className: "gi gi-" + props.glyph
+  }));
+};
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const consts = __webpack_require__(1);
 
 exports.intval = function (i) {
 	i = parseInt(i);
@@ -185,7 +315,7 @@ exports.intval = function (i) {
 
 
 /***/ }),
-/* 4 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -282,7 +412,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 
 
 /***/ }),
-/* 5 */
+/* 7 */
 /***/ (function(module, exports) {
 
 var g;
@@ -308,18 +438,20 @@ module.exports = g;
 
 
 /***/ }),
-/* 6 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Player = __webpack_require__(16);
-const Cell = __webpack_require__(17);
-const Move = __webpack_require__(18);
-const Alert = __webpack_require__(19);
-const AI = __webpack_require__(20);
+const Player = __webpack_require__(18);
+const Cell = __webpack_require__(19);
+const Move = __webpack_require__(20);
+const Alert = __webpack_require__(21);
+const AI = __webpack_require__(22);
+const consts = __webpack_require__(1);
 
 const Game = function (params) {
 	const self = this;
 
+	const id = params.id ? params.id : 0;
 	const name = params.name ? params.name : '';
 	let turn = params.turn ? params.turn : 0;
 	let playingPlayerId = params.playingPlayerId ? params.playingPlayerId : 0;
@@ -354,6 +486,7 @@ const Game = function (params) {
 		}
 	}
 
+	console.log(params.moves);
 	if (params && params.moves && params.moves.length) {
 		for (let i=0; i<params.moves.length; i++) {
 			moves.push(new Move(params.moves[i]));
@@ -362,7 +495,7 @@ const Game = function (params) {
 
 	if (params && params.alerts && params.alerts.length) {
 		for (let i=0; i<params.alerts.length; i++) {
-			alerts.push(new Alerts(params.alerts[i]));
+			alerts.push(new Alert(params.alerts[i]));
 		}
 	}
 
@@ -371,6 +504,7 @@ const Game = function (params) {
 		playingPlayerId = 0;
 	}
 
+	self.getId = () => id;
 	self.getName = () => name;
 	self.getTurn = () => turn;
 	self.getPlayingPlayerId = () => playingPlayerId;
@@ -469,7 +603,9 @@ const Game = function (params) {
 	}
 
 	self.nextPlayer = function () {
-		playingPlayer.setHasPlayedTurn(true);
+		if (playingPlayer) {
+			playingPlayer.setHasPlayedTurn(true);
+		}
 		playingPlayer = null;
 		for (let i=0; i<players.length; i++) {
 			if (!players[i].getHasPlayedTurn()) {
@@ -485,6 +621,7 @@ const Game = function (params) {
 			}
 			playingPlayer = players[0];
 			if (!self.hasHumanPlayer()) {
+				playingPlayer = null;
 				return;
 			}
 		}
@@ -509,14 +646,46 @@ const Game = function (params) {
 		return planets;
 	}
 
-
 	self.hasHumanPlayer = function () {
-		for (let i=0; i<players; i++) {
+		for (let i=0; i<players.length; i++) {
 			if (players[i].getType() === 'human') {
 				return true;
 			}
 		}
 		return false;
+	}
+
+	self.serialize = function () {
+		const data = {
+			id,
+			name,
+			turn,
+			playingPlayerId,
+			rows : [],
+			players : [],
+			moves : [],
+			alerts : [],
+		};
+		for (let i=0; i<rows.length; i++) {
+			const row = [];
+			for (let j=0; j<rows[i].length; j++) {
+				row.push(rows[i][j].serialize());
+			}
+			data.rows.push(row);
+		}
+		for (let i=0; i<players.length; i++) {
+			data.players.push(players[i].serialize());
+		}
+		for (let i=0; i<moves.length; i++) {
+			data.moves.push(moves[i].serialize());
+		}
+		for (let i=0; i<alerts.length; i++) {
+			data.alerts.push(alerts[i].serialize());
+		}
+
+		console.log(data.moves);
+
+		return data;
 	}
 }
 
@@ -528,6 +697,10 @@ Game.create = function (params) {
 					if (typeof params.rows[i][j].planet !== 'undefined') {
 						params.rows[i][j].productivity = 3;
 						params.rows[i][j].army = 1;
+						let r = parseInt(Math.random()*consts.planetNames.length);
+						params.rows[i][j].planetName = consts.planetNames[r];
+						r = parseInt(Math.random()*consts.planetImages.length);
+						params.rows[i][j].planetImage = consts.planetImages[r];
 					}
 					if (typeof params.rows[i][j].player !== 'undefined'
 						&& params.players[params.rows[i][j].player]
@@ -544,18 +717,17 @@ Game.create = function (params) {
 module.exports = Game;
 
 /***/ }),
-/* 7 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const consts = __webpack_require__(2);
-const utils = __webpack_require__(3);
+const consts = __webpack_require__(1);
+const utils = __webpack_require__(5);
 
-const storage = __webpack_require__(32);
+const storage = __webpack_require__(2);
 
 var setState;
 
 const state = {};
-
 
 const saveParams = function () {
 	const ng = state.newGame;
@@ -570,9 +742,10 @@ const saveParams = function () {
 
 const computeValues = function (ng, name, value) {
 	ng[name].value = value;
+	ng.planet.min = ng.players.length;
+	ng.planet.max = ng.row.value * ng.column.value;
 	ng[name].value = Math.min(ng[name].value, ng[name].max);
 	ng[name].value = Math.max(ng[name].value, ng[name].min);
-	ng.planet.min = ng.players.length;
 	ng.planet.max = ng.row.value * ng.column.value;
 	ng.planet.value = Math.min(ng.planet.max, ng.planet.value);
 	ng.planet.value = Math.max(ng.planet.min, ng.planet.value);
@@ -762,42 +935,54 @@ exports.regenerate = function () {
 
 
 /***/ }),
-/* 8 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var React = __webpack_require__(0);
+const display = __webpack_require__(11);
 
-module.exports = function (props) {
-  return React.createElement("a", {
-    href: "javascript:void(0);",
-    onClick: props.onClick,
-    className: "small-btn",
-    onKeyDown: props.onKeyDown
-  }, React.createElement("span", {
-    className: "gi gi-" + props.glyph
-  }));
-};
+window.onload = function () {
+	display.setTitle('Konquest');
+	display.render();
+	// display.addServiceWorker();
+}
+
 
 /***/ }),
-/* 9 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const React = __webpack_require__(0);
-const ReactDOM = __webpack_require__(11);
+const ReactDOM = __webpack_require__(13);
 
-const Main = __webpack_require__(15);
+const Main = __webpack_require__(17);
 
-window.onload = function() {
-	document.title = 'Konquest';
+exports.addServiceWorker = function () {
+	if ('serviceWorker' in navigator) {
+		navigator.serviceWorker
+		.register('sw.js')
+		.then(function(registration) {
+			console.log('Service Worker registration complete.');
+		})
+		.catch(function(error) {
+			console.log('Service Worker registration failure.', error);
+		});
+	}
+}
+
+exports.render = function () {
 	ReactDOM.render(
 		React.createElement(Main, null),
 		document.getElementById('application-container')
 	);
 }
 
+exports.setTitle = function (title) {
+	document.title = title;
+}
+
 
 /***/ }),
-/* 10 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -810,7 +995,7 @@ window.onload = function() {
  * LICENSE file in the root directory of this source tree.
  */
 
-var k=__webpack_require__(4),n="function"===typeof Symbol&&Symbol.for,p=n?Symbol.for("react.element"):60103,q=n?Symbol.for("react.portal"):60106,r=n?Symbol.for("react.fragment"):60107,t=n?Symbol.for("react.strict_mode"):60108,u=n?Symbol.for("react.profiler"):60114,v=n?Symbol.for("react.provider"):60109,w=n?Symbol.for("react.context"):60110,x=n?Symbol.for("react.concurrent_mode"):60111,y=n?Symbol.for("react.forward_ref"):60112,z=n?Symbol.for("react.suspense"):60113,A=n?Symbol.for("react.memo"):
+var k=__webpack_require__(6),n="function"===typeof Symbol&&Symbol.for,p=n?Symbol.for("react.element"):60103,q=n?Symbol.for("react.portal"):60106,r=n?Symbol.for("react.fragment"):60107,t=n?Symbol.for("react.strict_mode"):60108,u=n?Symbol.for("react.profiler"):60114,v=n?Symbol.for("react.provider"):60109,w=n?Symbol.for("react.context"):60110,x=n?Symbol.for("react.concurrent_mode"):60111,y=n?Symbol.for("react.forward_ref"):60112,z=n?Symbol.for("react.suspense"):60113,A=n?Symbol.for("react.memo"):
 60115,B=n?Symbol.for("react.lazy"):60116,C="function"===typeof Symbol&&Symbol.iterator;function aa(a,b,e,c,d,g,h,f){if(!a){a=void 0;if(void 0===b)a=Error("Minified exception occurred; use the non-minified dev environment for the full error message and additional helpful warnings.");else{var l=[e,c,d,g,h,f],m=0;a=Error(b.replace(/%s/g,function(){return l[m++]}));a.name="Invariant Violation"}a.framesToPop=1;throw a;}}
 function D(a){for(var b=arguments.length-1,e="https://reactjs.org/docs/error-decoder.html?invariant="+a,c=0;c<b;c++)e+="&args[]="+encodeURIComponent(arguments[c+1]);aa(!1,"Minified React error #"+a+"; visit %s for the full message or use the non-minified dev environment for full errors and additional helpful warnings. ",e)}var E={isMounted:function(){return!1},enqueueForceUpdate:function(){},enqueueReplaceState:function(){},enqueueSetState:function(){}},F={};
 function G(a,b,e){this.props=a;this.context=b;this.refs=F;this.updater=e||E}G.prototype.isReactComponent={};G.prototype.setState=function(a,b){"object"!==typeof a&&"function"!==typeof a&&null!=a?D("85"):void 0;this.updater.enqueueSetState(this,a,b,"setState")};G.prototype.forceUpdate=function(a){this.updater.enqueueForceUpdate(this,a,"forceUpdate")};function H(){}H.prototype=G.prototype;function I(a,b,e){this.props=a;this.context=b;this.refs=F;this.updater=e||E}var J=I.prototype=new H;
@@ -828,7 +1013,7 @@ unstable_ConcurrentMode:x,unstable_Profiler:u,__SECRET_INTERNALS_DO_NOT_USE_OR_Y
 
 
 /***/ }),
-/* 11 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -857,12 +1042,12 @@ if (true) {
   // DCE check should happen before ReactDOM bundle executes so that
   // DevTools can report bad minification during injection.
   checkDCE();
-  module.exports = __webpack_require__(12);
+  module.exports = __webpack_require__(14);
 } else {}
 
 
 /***/ }),
-/* 12 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -878,7 +1063,7 @@ if (true) {
 /*
  Modernizr 3.0.0pre (Custom Build) | MIT
 */
-var aa=__webpack_require__(0),n=__webpack_require__(4),ba=__webpack_require__(13);function ca(a,b,c,d,e,f,g,h){if(!a){a=void 0;if(void 0===b)a=Error("Minified exception occurred; use the non-minified dev environment for the full error message and additional helpful warnings.");else{var k=[c,d,e,f,g,h],l=0;a=Error(b.replace(/%s/g,function(){return k[l++]}));a.name="Invariant Violation"}a.framesToPop=1;throw a;}}
+var aa=__webpack_require__(0),n=__webpack_require__(6),ba=__webpack_require__(15);function ca(a,b,c,d,e,f,g,h){if(!a){a=void 0;if(void 0===b)a=Error("Minified exception occurred; use the non-minified dev environment for the full error message and additional helpful warnings.");else{var k=[c,d,e,f,g,h],l=0;a=Error(b.replace(/%s/g,function(){return k[l++]}));a.name="Invariant Violation"}a.framesToPop=1;throw a;}}
 function t(a){for(var b=arguments.length-1,c="https://reactjs.org/docs/error-decoder.html?invariant="+a,d=0;d<b;d++)c+="&args[]="+encodeURIComponent(arguments[d+1]);ca(!1,"Minified React error #"+a+"; visit %s for the full message or use the non-minified dev environment for full errors and additional helpful warnings. ",c)}aa?void 0:t("227");function da(a,b,c,d,e,f,g,h,k){var l=Array.prototype.slice.call(arguments,3);try{b.apply(c,l)}catch(m){this.onError(m)}}
 var ea=!1,fa=null,ha=!1,ia=null,ja={onError:function(a){ea=!0;fa=a}};function ka(a,b,c,d,e,f,g,h,k){ea=!1;fa=null;da.apply(ja,arguments)}function la(a,b,c,d,e,f,g,h,k){ka.apply(this,arguments);if(ea){if(ea){var l=fa;ea=!1;fa=null}else t("198"),l=void 0;ha||(ha=!0,ia=l)}}var ma=null,na={};
 function oa(){if(ma)for(var a in na){var b=na[a],c=ma.indexOf(a);-1<c?void 0:t("96",a);if(!pa[c]){b.extractEvents?void 0:t("97",a);pa[c]=b;c=b.eventTypes;for(var d in c){var e=void 0;var f=c[d],g=b,h=d;qa.hasOwnProperty(h)?t("99",h):void 0;qa[h]=f;var k=f.phasedRegistrationNames;if(k){for(e in k)k.hasOwnProperty(e)&&ra(k[e],g,h);e=!0}else f.registrationName?(ra(f.registrationName,g,h),e=!0):e=!1;e?void 0:t("98",d,a)}}}}
@@ -1118,19 +1303,19 @@ var li={default:ki},mi=li&&ki||li;module.exports=mi.default||mi;
 
 
 /***/ }),
-/* 13 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 if (true) {
-  module.exports = __webpack_require__(14);
+  module.exports = __webpack_require__(16);
 } else {}
 
 
 /***/ }),
-/* 14 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1156,10 +1341,10 @@ exports.unstable_scheduleCallback=function(a,b){var d=-1!==k?k:exports.unstable_
 b=d.previous;b.next=d.previous=a;a.next=d;a.previous=b}return a};exports.unstable_cancelCallback=function(a){var b=a.next;if(null!==b){if(b===a)c=null;else{a===c&&(c=b);var d=a.previous;d.next=b;b.previous=d}a.next=a.previous=null}};exports.unstable_wrapCallback=function(a){var b=h;return function(){var d=h,e=k;h=b;k=exports.unstable_now();try{return a.apply(this,arguments)}finally{h=d,k=e,v()}}};exports.unstable_getCurrentPriorityLevel=function(){return h};
 exports.unstable_shouldYield=function(){return!f&&(null!==c&&c.expirationTime<l||w())};exports.unstable_continueExecution=function(){null!==c&&p()};exports.unstable_pauseExecution=function(){};exports.unstable_getFirstCallbackNode=function(){return c};
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(5)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(7)))
 
 /***/ }),
-/* 15 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -1182,11 +1367,11 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 var React = __webpack_require__(0);
 
-var GameObject = __webpack_require__(6);
+var GameObject = __webpack_require__(8);
 
-var Game = __webpack_require__(21);
+var Game = __webpack_require__(23);
 
-var Menu = __webpack_require__(26);
+var Menu = __webpack_require__(29);
 
 module.exports =
 /*#__PURE__*/
@@ -1247,7 +1432,7 @@ function (_React$Component) {
 }(React.Component);
 
 /***/ }),
-/* 16 */
+/* 18 */
 /***/ (function(module, exports) {
 
 module.exports = function (params) {
@@ -1297,10 +1482,20 @@ module.exports = function (params) {
 	}	
 
 	self.createMove = function (params) {}
+
+	self.serialize = function () {
+		const data = {
+			name,
+			type,
+			color,
+			hasPlayedTurn,
+		}
+		return data;
+	}
 }
 
 /***/ }),
-/* 17 */
+/* 19 */
 /***/ (function(module, exports) {
 
 module.exports = function (params) {
@@ -1313,6 +1508,8 @@ module.exports = function (params) {
 	let army = params.army ? params.army : 0;
 	let selected = params.selected ? params.selected : false;
 	const planet = params.planet ? params.planet : null;
+	const planetName = params.planetName ? params.planetName : null;
+	const planetImage = params.planetImage ? params.planetImage : null;
 	let productivity = params.productivity ? params.productivity : 0;
 
 	self.getRowId = () => rowId;
@@ -1321,6 +1518,8 @@ module.exports = function (params) {
 	self.getArmy = () => army;
 	self.getSelected = () => selected;
 	self.getPlanet = () => planet;
+	self.getPlanetName = () => planetName;
+	self.getPlanetImage = () => planetImage;
 	self.getProductivity = () => productivity;
 
 	self.getId = function () {
@@ -1361,10 +1560,22 @@ module.exports = function (params) {
 		const velocity = 1.5;
 		return Math.ceil(Math.sqrt(Math.pow(self.getRowId() - cell.getRowId(), 2) + Math.pow(self.getColumnId() - cell.getColumnId(), 2)) / velocity)
 	}
+
+	self.serialize = function () {
+		const data = {
+			id,
+			rowId,
+			columnId,
+			planetName,
+			planetImage,
+			productivity,
+		}
+		return data;
+	}
 }
 
 /***/ }),
-/* 18 */
+/* 20 */
 /***/ (function(module, exports) {
 
 module.exports = function (params) {
@@ -1385,10 +1596,22 @@ module.exports = function (params) {
 	self.getArmy = () => army;
 	self.getPlayerId = () => playerId;
 	self.getPlayer = () => player;
+
+	self.serialize = function () {
+		const data = {
+			origin,
+			destination,
+			turnDeparture,
+			turnArrival,
+			army,
+			playerId,
+		};
+		return data;
+	}
 }
 
 /***/ }),
-/* 19 */
+/* 21 */
 /***/ (function(module, exports) {
 
 module.exports = function (params) {
@@ -1399,10 +1622,16 @@ module.exports = function (params) {
 
 	self.getMessage = () => message;
 	self.getTurn = () => turn;
+
+	self.serialize = function () {
+		return {
+			message, turn,
+		}
+	}
 }
 
 /***/ }),
-/* 20 */
+/* 22 */
 /***/ (function(module, exports) {
 
 module.exports = function (data) {
@@ -1457,7 +1686,7 @@ module.exports = function (data) {
 }
 
 /***/ }),
-/* 21 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -1480,15 +1709,21 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 var React = __webpack_require__(0);
 
-var Button = __webpack_require__(1);
+var storage = __webpack_require__(2);
 
-var Destination = __webpack_require__(22);
+var Button = __webpack_require__(3);
 
-var Alert = __webpack_require__(23);
+var SmallButton = __webpack_require__(4);
 
-var Move = __webpack_require__(24);
+var Destination = __webpack_require__(24);
 
-var PlayerIndicator = __webpack_require__(25);
+var Alert = __webpack_require__(25);
+
+var Move = __webpack_require__(26);
+
+var Planet = __webpack_require__(27);
+
+var PlayerIndicator = __webpack_require__(28);
 
 var GamePage =
 /*#__PURE__*/
@@ -1511,6 +1746,7 @@ function (_React$Component) {
     key: "endTurn",
     value: function endTurn() {
       this.state.game.nextPlayer();
+      storage.saveGame(this.state.game.serialize());
       this.setState({
         game: this.state.game
       });
@@ -1538,26 +1774,6 @@ function (_React$Component) {
       }
     }
   }, {
-    key: "getCellClass",
-    value: function getCellClass(cell) {
-      var classNames = [];
-      var players = this.state.game.getPlayers();
-
-      if (cell.getPlanet()) {
-        classNames.push('has-planet');
-      }
-
-      if (cell.getPlayer()) {
-        classNames.push('color-' + cell.getPlayer().getColor());
-      }
-
-      if (cell.getSelected()) {
-        classNames.push('selected');
-      }
-
-      return classNames.join(' ');
-    }
-  }, {
     key: "sendArmy",
     value: function sendArmy(event) {
       var armySize = parseInt(document.getElementById('army_size').value);
@@ -1578,6 +1794,16 @@ function (_React$Component) {
       }
     }
   }, {
+    key: "cancelMove",
+    value: function cancelMove(event) {
+      var player = this.state.game.getPlayingPlayer();
+      player.setSelectedOriginCell(null);
+      player.setSelectedDestinationCell(null);
+      this.setState({
+        game: this.state.game
+      });
+    }
+  }, {
     key: "componentDidMount",
     value: function componentDidMount() {
       var player = this.state.game.getPlayingPlayer();
@@ -1594,51 +1820,77 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       var self = this;
       var rows = self.state.game.getRows();
       var players = self.state.game.getPlayers();
       var player = self.state.game.getPlayingPlayer();
-      return React.createElement("div", null, React.createElement("div", {
-        className: "game-block"
-      }, React.createElement(Button, {
-        onClick: self.backToMenu.bind(self)
-      }, "Menu"), React.createElement("span", {
-        className: "indicator"
-      }, self.state.game.getName(), " :", player.getColor()), React.createElement("span", {
-        className: "indicator"
-      }, "Turn ", self.state.game.getTurn()), React.createElement(Button, {
-        onClick: self.endTurn.bind(self)
-      }, "End Turn")), React.createElement("div", {
-        className: "game-block movement-zone"
-      }, player.getSelectedOriginCell() ? React.createElement("span", {
-        className: "indicator"
-      }, "From : ", player.getSelectedOriginCell().getId()) : null, player.getSelectedDestinationCell() ? React.createElement(Destination, {
-        player: player,
-        sendArmy: self.sendArmy.bind(self)
-      }) : null), React.createElement("table", {
-        className: "map"
-      }, React.createElement("tbody", null, rows.map(function (row) {
-        return React.createElement("tr", null, row.map(function (cell) {
-          return React.createElement("td", {
-            className: self.getCellClass(cell),
-            onClick: self.clickCell.bind(self, cell)
-          }, typeof cell.getPlayer() !== 'undefined' && cell.getPlanet() ? '' + cell.getArmy() : null);
-        }));
-      }))), React.createElement("div", {
-        className: "game-block"
-      }, React.createElement("h2", null, "Moves"), self.state.game.getMoves().map(function (elt) {
-        return React.createElement("div", null, "P ", elt.getOrigin().getId(), " (", elt.getTurnDeparture(), ") -> P ", elt.getDestination().getId(), " (", elt.getTurnArrival(), ") : ", elt.getArmy());
-      })), React.createElement("div", {
-        className: "game-block"
-      }, React.createElement("h2", null, "Alerts"), self.state.game.getRecentAlerts().map(function (props) {
-        return React.createElement(Alert, props);
-      })), React.createElement("div", {
-        className: "game-block"
-      }, React.createElement("h2", null, "Players"), players.map(function (elt) {
-        return React.createElement(PlayerIndicator, {
-          player: elt
-        });
-      })));
+
+      if (players.length > 1) {
+        return React.createElement(React.Fragment, null, React.createElement("div", {
+          className: "game-block"
+        }, React.createElement(Button, {
+          onClick: self.backToMenu.bind(self)
+        }, "Menu"), player ? React.createElement("span", {
+          className: "indicator"
+        }, self.state.game.getName(), " :", player.getColor()) : null, React.createElement("span", {
+          className: "indicator"
+        }, "Turn ", self.state.game.getTurn()), React.createElement(Button, {
+          onClick: self.endTurn.bind(self)
+        }, "End Turn")), player ? React.createElement("div", {
+          className: "game-block movement-zone"
+        }, player.getSelectedOriginCell() ? React.createElement("span", {
+          className: "indicator"
+        }, "From : ", player.getSelectedOriginCell().getId()) : null, player.getSelectedDestinationCell() ? React.createElement(Destination, {
+          player: player,
+          sendArmy: self.sendArmy.bind(self)
+        }) : null, player.getSelectedOriginCell() ? React.createElement(SmallButton, {
+          onClick: self.cancelMove.bind(self),
+          glyph: "step-backward"
+        }) : null) : null, React.createElement("table", {
+          className: "map"
+        }, React.createElement("tbody", null, rows.map(function (row) {
+          return React.createElement("tr", null, row.map(function (cell) {
+            return React.createElement("td", null, cell.getPlanet() && React.createElement(Planet, {
+              cell: cell,
+              game: self.state.game,
+              clickCell: self.clickCell.bind(_this2, cell)
+            }));
+          }));
+        }))), React.createElement("div", {
+          className: "game-block"
+        }, React.createElement("h2", null, "Moves"), self.state.game.getMoves().map(function (elt) {
+          return React.createElement("div", null, "P ", elt.getOrigin().getId(), " (", elt.getTurnDeparture(), ") -> P ", elt.getDestination().getId(), " (", elt.getTurnArrival(), ") : ", elt.getArmy());
+        })), React.createElement("div", {
+          className: "game-block"
+        }, React.createElement("h2", null, "Alerts"), self.state.game.getRecentAlerts().map(function (props) {
+          return React.createElement(Alert, props);
+        })), React.createElement("div", {
+          className: "game-block"
+        }, React.createElement("h2", null, "Players"), players.map(function (elt) {
+          return React.createElement(PlayerIndicator, {
+            player: elt
+          });
+        })));
+      } else {
+        return React.createElement(React.Fragment, null, React.createElement("div", {
+          className: "game-block"
+        }, React.createElement(Button, {
+          onClick: self.backToMenu.bind(self)
+        }, "Menu")), React.createElement("div", {
+          className: "game-block"
+        }, players[0].getName(), " is victorious"), React.createElement("table", {
+          className: "map"
+        }, React.createElement("tbody", null, rows.map(function (row) {
+          return React.createElement("tr", null, row.map(function (cell) {
+            return React.createElement("td", null, cell.getPlanet() && React.createElement(Planet, {
+              cell: cell,
+              game: self.state.game
+            }));
+          }));
+        }))));
+      }
     }
   }]);
 
@@ -1648,7 +1900,7 @@ function (_React$Component) {
 module.exports = GamePage;
 
 /***/ }),
-/* 22 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -1671,7 +1923,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 var React = __webpack_require__(0);
 
-var Button = __webpack_require__(1);
+var Button = __webpack_require__(3);
 
 var Destination =
 /*#__PURE__*/
@@ -1727,7 +1979,7 @@ function (_React$Component) {
 module.exports = Destination;
 
 /***/ }),
-/* 23 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var React = __webpack_require__(0);
@@ -1743,7 +1995,7 @@ module.exports = function (elt) {
 };
 
 /***/ }),
-/* 24 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var React = __webpack_require__(0);
@@ -1755,7 +2007,85 @@ module.exports = function (elt) {
 };
 
 /***/ }),
-/* 25 */
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var React = __webpack_require__(0);
+
+var Planet =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(Planet, _React$Component);
+
+  function Planet() {
+    _classCallCheck(this, Planet);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(Planet).apply(this, arguments));
+  }
+
+  _createClass(Planet, [{
+    key: "getCellClass",
+    value: function getCellClass(cell) {
+      var classNames = [];
+      var players = this.props.game.getPlayers();
+
+      if (cell.getPlanet()) {
+        classNames.push('has-planet');
+      }
+
+      if (cell.getPlayer()) {
+        classNames.push('color-' + cell.getPlayer().getColor());
+      }
+
+      if (cell.getSelected()) {
+        classNames.push('selected');
+      }
+
+      return classNames.join(' ');
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var cell = this.props.cell;
+      return React.createElement("div", {
+        className: "planet " + this.getCellClass.call(this, cell),
+        onClick: this.props.clickCell
+      }, React.createElement("img", {
+        className: "planet-image",
+        src: "img/planet/" + cell.getPlanetImage() + ".png"
+      }), typeof cell.getPlayer() !== 'undefined' && cell.getPlanet() ? React.createElement(React.Fragment, null, React.createElement("div", {
+        className: "army-number"
+      }, cell.getArmy()), React.createElement("div", {
+        className: "name"
+      }, cell.getPlanetName())) : null);
+    }
+  }]);
+
+  return Planet;
+}(React.Component);
+
+module.exports = Planet;
+
+/***/ }),
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var React = __webpack_require__(0);
@@ -1769,7 +2099,7 @@ module.exports = function (props) {
 };
 
 /***/ }),
-/* 26 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -1792,21 +2122,23 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 
 var React = __webpack_require__(0);
 
-var clone = __webpack_require__(27);
+var clone = __webpack_require__(30);
 
-var GameObject = __webpack_require__(6);
+var GameObject = __webpack_require__(8);
 
-var consts = __webpack_require__(2);
+var consts = __webpack_require__(1);
 
-var utils = __webpack_require__(3);
+var menuStateManager = __webpack_require__(9);
 
-var menuStateManager = __webpack_require__(7);
+var storage = __webpack_require__(2);
 
-var Button = __webpack_require__(1);
+var utils = __webpack_require__(5);
 
-var SmallButton = __webpack_require__(8);
+var Button = __webpack_require__(3);
 
-var NumberSelector = __webpack_require__(33);
+var NumberSelector = __webpack_require__(35);
+
+var SmallButton = __webpack_require__(4);
 
 var MenuPage =
 /*#__PURE__*/
@@ -1821,6 +2153,7 @@ function (_React$Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(MenuPage).call(this));
     menuStateManager.setSetState(_this.setState.bind(_assertThisInitialized(_assertThisInitialized(_this))));
     _this.state = menuStateManager.getInitialState();
+    _this.state.gameList = storage.getAllGames();
     return _this;
   }
 
@@ -1831,6 +2164,12 @@ function (_React$Component) {
       this.props.startGame(newGame);
     }
   }, {
+    key: "startGame",
+    value: function startGame(id) {
+      var loadedGame = storage.loadGame(id);
+      this.props.startGame(loadedGame);
+    }
+  }, {
     key: "handleSelect",
     value: function handleSelect(idx, event) {
       menuStateManager.changePlayer(idx, event.target.name, event.target.value);
@@ -1838,8 +2177,6 @@ function (_React$Component) {
   }, {
     key: "handleKeyDown",
     value: function handleKeyDown(event) {
-      console.log(event.target.attributes);
-
       if (event.which === 38 || event.which === 40) {
         menuStateManager.addValue(event.target.name, event.which === 38 ? 1 : -1);
       }
@@ -1862,6 +2199,8 @@ function (_React$Component) {
 
       return React.createElement("div", {
         className: "page-menu"
+      }, React.createElement("div", {
+        className: "game-block"
       }, React.createElement("div", {
         className: "game-block players"
       }, React.createElement("h2", null, "Players"), self.state.newGame.players.map(function (player, idx) {
@@ -1934,7 +2273,14 @@ function (_React$Component) {
         onClick: menuStateManager.regenerate
       }, "Regenerate"), React.createElement(Button, {
         onClick: self.start.bind(self)
-      }, "Start"), React.createElement("footer", null, "Version 0.1.0"));
+      }, "Start")), React.createElement("div", {
+        className: "game-block"
+      }, React.createElement("table", null, React.createElement("tbody", null, self.state.gameList && self.state.gameList.map(function (game) {
+        return React.createElement("tr", null, React.createElement("td", null, game.id), React.createElement("td", null, game.name), React.createElement("td", null, game.turn), React.createElement("td", null, React.createElement(SmallButton, {
+          glyph: "play",
+          onClick: self.startGame.bind(self, game.id)
+        })));
+      })))), React.createElement("footer", null, "Version 0.2.0"));
     }
   }]);
 
@@ -1944,7 +2290,7 @@ function (_React$Component) {
 module.exports = MenuPage;
 
 /***/ }),
-/* 27 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {var clone = (function() {
@@ -2205,10 +2551,10 @@ if ( true && module.exports) {
   module.exports = clone;
 }
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(28).Buffer))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(31).Buffer))
 
 /***/ }),
-/* 28 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2222,9 +2568,9 @@ if ( true && module.exports) {
 
 
 
-var base64 = __webpack_require__(29)
-var ieee754 = __webpack_require__(30)
-var isArray = __webpack_require__(31)
+var base64 = __webpack_require__(32)
+var ieee754 = __webpack_require__(33)
+var isArray = __webpack_require__(34)
 
 exports.Buffer = Buffer
 exports.SlowBuffer = SlowBuffer
@@ -4002,10 +4348,10 @@ function isnan (val) {
   return val !== val // eslint-disable-line no-self-compare
 }
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(5)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(7)))
 
 /***/ }),
-/* 29 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4163,7 +4509,7 @@ function fromByteArray (uint8) {
 
 
 /***/ }),
-/* 30 */
+/* 33 */
 /***/ (function(module, exports) {
 
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -4253,7 +4599,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 
 
 /***/ }),
-/* 31 */
+/* 34 */
 /***/ (function(module, exports) {
 
 var toString = {}.toString;
@@ -4264,59 +4610,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 32 */
-/***/ (function(module, exports) {
-
-const prefix = 'kq_';
-
-const menuParams = {};
-let games = [];
-
-
-exports.getMenuParams = function () {
-	if (localStorage[prefix+'menu_params']) {
-		try {
-			const jd = JSON.parse(localStorage[prefix+'menu_params']);
-			return jd;
-		}
-		catch (error) {
-			return {};
-		}
-	}
-	return {};
-}
-
-exports.setMenuParams = function (params) {
-	const menuParams = exports.getMenuParams();
-	if (params.players) {
-		menuParams.players = params.players;
-	}
-	if (params.planet) {
-		menuParams.planet = params.planet;
-	}
-	if (params.column) {
-		menuParams.column = params.column;
-	}
-	if (params.row) {
-		menuParams.row = params.row;
-	}
-	if (params.rows) {
-		menuParams.rows = params.rows;
-	}
-	localStorage[prefix+'menu_params'] = JSON.stringify(menuParams);
-}
-
-exports.getGames = function () {
-	return games;
-}
-
-exports.setGames = function (values) {
-	games = values;
-}
-
-
-/***/ }),
-/* 33 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -4339,11 +4633,11 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 var React = __webpack_require__(0);
 
-var menuStateManager = __webpack_require__(7);
+var menuStateManager = __webpack_require__(9);
 
-var utils = __webpack_require__(3);
+var utils = __webpack_require__(5);
 
-var SmallButton = __webpack_require__(8);
+var SmallButton = __webpack_require__(4);
 
 module.exports =
 /*#__PURE__*/
