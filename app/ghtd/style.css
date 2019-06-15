@@ -333,29 +333,29 @@ html body #react-root .app-container .label {
   line-height: 18px;
   min-height: 20px;
 }
-html body #react-root .app-container div.form-table {
+html body #react-root .app-container .form-table {
   width: 100%;
 }
-html body #react-root .app-container div.form-table div.view-row {
+html body #react-root .app-container .form-table div.view-row {
   width: 100%;
   padding: 2px 4px;
 }
-html body #react-root .app-container div.form-table div.view-row div[data-column=label] {
+html body #react-root .app-container .form-table div.view-row div[data-column=label] {
   display: inline-block;
   width: 30%;
 }
-html body #react-root .app-container div.form-table div.view-row div[data-column=value] {
+html body #react-root .app-container .form-table div.view-row div[data-column=value] {
   display: inline-block;
   width: 70%;
   box-sizing: border-box;
   padding: 0px 4px;
 }
-html body #react-root .app-container div.form-table div.view-row div[data-column=value] select {
+html body #react-root .app-container .form-table div.view-row div[data-column=value] select {
   width: 100%;
   height: 28px;
   margin: 1px 0px;
 }
-html body #react-root .app-container div.form-table div.view-row div[data-column=value] input[type=text] {
+html body #react-root .app-container .form-table div.view-row div[data-column=value] input[type=text] {
   width: 100%;
 }
 html body #react-root .app-container .page-content {

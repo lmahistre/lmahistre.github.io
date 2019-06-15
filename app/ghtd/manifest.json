@@ -23,7 +23,7 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": "lmahistre.github.io/app/ghtd",
+  "start_url": "https://lmahistre.github.io/app/ghtd",
   "background_color": "#111",
   "display": "standalone",
   "scope": "/app/ghtd",
