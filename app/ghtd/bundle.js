@@ -9785,7 +9785,7 @@ module.exports.colors = [
 	},
 ];
 
-exports.version = '0.2.3';
+exports.version = '0.2.4';
 exports.appName = 'GHTD';
 exports.fileName = 'ghtd.json';
 
@@ -35713,7 +35713,7 @@ var NewTaskForm = function (_React$Component) {
 		value: function handleInputKeyDown(event) {
 			if (event.which == 13) {
 				this.addTask();
-			} else {}
+			}
 		}
 	}, {
 		key: "addTask",
@@ -36703,6 +36703,9 @@ var ProjectList = function (_React$Component) {
 			var projects = self.props.projects;
 			if (projects) {
 				for (var i in projects) {
+					if (!projects[i].status) {
+						projects[i].status = 'active';
+					}
 					if (projects[i].status === 'active') {
 						projectList.push(projects[i]);
 					}
@@ -37540,12 +37543,13 @@ var SettingsEdit = function (_React$Component) {
 		key: "save",
 		value: function save() {
 			var settings = {};
-			settings.language = document.getElementById('language').value;
-			settings.user = document.getElementById('settings-user').value;
-			settings.token = document.getElementById('settings-token').value;
-			settings.gistId = document.getElementById('settings-gistId').value;
-			settings.fileName = document.getElementById('settings-fileName').value;
-			settings.warnIfDirty = document.getElementById('warn-if-dirty').value === '1';
+			var form = document.forms['settings-edit'];
+			settings.language = form.language.value;
+			settings.user = form.user.value;
+			settings.token = form.token.value;
+			settings.gistId = form.gistId.value;
+			settings.fileName = form.fileName.value;
+			settings.warnIfDirty = form.warnIfDirty.value === '1';
 			store.dispatch(reduxActions.updateSettings(settings));
 			browserService.redirect('settings');
 		}
@@ -37565,7 +37569,7 @@ var SettingsEdit = function (_React$Component) {
 				{ selectedMenu: "settings" },
 				React.createElement(
 					CommonButton,
-					{ onClick: this.save },
+					{ onClick: this.save.bind(this) },
 					L("Save")
 				),
 				React.createElement(
@@ -37577,8 +37581,8 @@ var SettingsEdit = function (_React$Component) {
 					Block,
 					null,
 					React.createElement(
-						"div",
-						{ className: "form-table", "data-table": "settings-list" },
+						"form",
+						{ className: "form-table", "data-table": "settings-list", name: "settings-edit" },
 						React.createElement(
 							"div",
 							{ className: "view-row" },
@@ -37592,7 +37596,7 @@ var SettingsEdit = function (_React$Component) {
 								{ "data-column": "value" },
 								React.createElement(
 									RadioSelector,
-									{ id: "language", name: "language", value: settings.language },
+									{ name: "language", value: settings.language, ref: this.languageRef },
 									constsService.languages.map(function (elt) {
 										return React.createElement(
 											"option",
@@ -37614,7 +37618,7 @@ var SettingsEdit = function (_React$Component) {
 							React.createElement(
 								"div",
 								{ "data-column": "value" },
-								React.createElement("input", { name: "user", id: "settings-user", type: "text", defaultValue: settings.user, onKeyDown: this.handleInputKeyDown.bind(this) })
+								React.createElement("input", { name: "user", type: "text", defaultValue: settings.user, onKeyDown: this.handleInputKeyDown.bind(this) })
 							)
 						),
 						React.createElement(
@@ -37628,7 +37632,7 @@ var SettingsEdit = function (_React$Component) {
 							React.createElement(
 								"div",
 								{ "data-column": "value" },
-								React.createElement("input", { name: "gistId", id: "settings-gistId", type: "text", defaultValue: settings.gistId, onKeyDown: this.handleInputKeyDown.bind(this) })
+								React.createElement("input", { name: "gistId", type: "text", defaultValue: settings.gistId, onKeyDown: this.handleInputKeyDown.bind(this) })
 							)
 						),
 						React.createElement(
@@ -37642,7 +37646,7 @@ var SettingsEdit = function (_React$Component) {
 							React.createElement(
 								"div",
 								{ "data-column": "value" },
-								React.createElement("input", { name: "token", id: "settings-token", type: "text", defaultValue: settings.token, onKeyDown: this.handleInputKeyDown.bind(this) })
+								React.createElement("input", { name: "token", type: "text", defaultValue: settings.token, onKeyDown: this.handleInputKeyDown.bind(this) })
 							)
 						),
 						React.createElement(
@@ -37656,7 +37660,7 @@ var SettingsEdit = function (_React$Component) {
 							React.createElement(
 								"div",
 								{ "data-column": "value" },
-								React.createElement("input", { name: "token", id: "settings-fileName", type: "text", defaultValue: settings.fileName, onKeyDown: this.handleInputKeyDown.bind(this) })
+								React.createElement("input", { name: "token", type: "text", defaultValue: settings.fileName, onKeyDown: this.handleInputKeyDown.bind(this) })
 							)
 						),
 						React.createElement(
@@ -37672,7 +37676,7 @@ var SettingsEdit = function (_React$Component) {
 								{ "data-column": "value" },
 								React.createElement(
 									RadioSelector,
-									{ id: "warn-if-dirty", name: "warn-if-dirty", value: settings.warnIfDirty ? '1' : '0' },
+									{ name: "warnIfDirty", value: settings.warnIfDirty ? '1' : '0' },
 									React.createElement(
 										"option",
 										{ value: "0" },
