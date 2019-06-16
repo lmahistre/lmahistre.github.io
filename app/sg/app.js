@@ -106,7 +106,7 @@ exports.building = {
 		name : 'Command Center',
 		code : 'command_center',
 		moneyCost : 300,
-		mineralCost : 24,
+		mineralCost : 25,
 		hp : 1000,
 		moneyIncome : 3,
 		mineralIncome : 1,
@@ -148,7 +148,7 @@ exports.building = {
 		name : "Factory",
 		code : 'factory',
 		moneyCost : 150,
-		mineralCost : 14,
+		mineralCost : 16,
 		hp : 800,
 		moneyIncome : 0,
 		mineralIncome : 0,
@@ -162,7 +162,7 @@ exports.building = {
 		name : "Missile Turret",
 		code : 'missile_turret',
 		moneyCost : 80,
-		mineralCost : 7,
+		mineralCost : 8,
 		hp : 400,
 		moneyIncome : 0,
 		mineralIncome : 0,
@@ -176,7 +176,7 @@ exports.building = {
 		name : "Starport",
 		code : 'starport',
 		moneyCost : 200,
-		mineralCost : 13,
+		mineralCost : 14,
 		hp : 800,
 		moneyIncome : 0,
 		mineralIncome : 0,
@@ -190,7 +190,7 @@ exports.building = {
 		name : "Workshop",
 		code : 'workshop',
 		moneyCost : 250,
-		mineralCost : 12,
+		mineralCost : 13,
 		hp : 750,
 		moneyIncome : 0,
 		mineralIncome : 0,
@@ -207,7 +207,7 @@ exports.unit = {
 		name : 'Fighter',
 		code : 'fighter',
 		moneyCost : 100,
-		mineralCost : 5,
+		mineralCost : 6,
 		hp : 200,
 		buildTime : 6,
 		damage : 11,
@@ -219,7 +219,7 @@ exports.unit = {
 		name : 'Destroyer',
 		code : 'destroyer',
 		moneyCost : 200,
-		mineralCost : 8,
+		mineralCost : 10,
 		hp : 300,
 		buildTime : 9,
 		damage : 17,
@@ -1370,9 +1370,7 @@ module.exports = function (data) {
 	let hp = data.hp ? data.hp : 0;
 	const hpMax = data.hpMax ? data.hpMax : 0;
 	let buildTime = data.buildTime ? data.buildTime : 0;
-	const baseDamage = data.baseDamage ? data.baseDamage : 0;
 	let damage = data.damage ? data.damage : 0;
-	const baseArmor = data.baseArmor ? data.baseArmor : 0;
 	let armor = data.armor ? data.armor : 0;
 	let status = data.status ? data.status : 'construction';
 	let experience = data.experience ? data.experience : 0;
@@ -1399,12 +1397,14 @@ module.exports = function (data) {
 	self.getHp = () => hp;
 	self.getHpMax = () => hpMax;
 	self.getBuildTime = () => buildTime;
-	self.getDamage = () => damage;
-	self.getArmor = () => armor;
+	self.getArmor = () => armor + level;
 	self.getStatus = () => status;
 	self.getExperience = () => experience;
 	self.getLevel = () => level;
 
+	self.getDamage = function () {
+		return damage + level;
+	}
 
 	self.getPlayerColor = function () {
 		if (player && player.getColor) {
@@ -1417,7 +1417,7 @@ module.exports = function (data) {
 	self.serialize = function () {
 		return {
 			id, name, code, moneyCost, mineralCost, hp, hpMax, buildTime, damage, 
-			status, experience,
+			status, experience, level,
 		}
 	}
 
@@ -1431,7 +1431,7 @@ module.exports = function (data) {
 
 
 	self.takeDamage = function (damage) {
-		let d = Math.max(0, damage-armor);
+		let d = Math.max(0, damage-armor-level);
 		hp -= d;
 		if (hp < 0) {
 			status = 'destroyed';
@@ -1441,10 +1441,14 @@ module.exports = function (data) {
 		}
 	}
 
-
 	self.addExperience = function (xp) {
 		experience += parseInt(xp);
-		
+		level = parseInt(experience / 100);
+	}
+
+	self.repair = function () {
+		hp += parseInt(hpMax * 0.05);
+		hp = Math.min(hp, hpMax);
 	}
 }
 
@@ -1660,15 +1664,17 @@ const Building = function (data) {
 	const buildCapacity = data.buildCapacity ? data.buildCapacity : 0;
 	let damage = data.damage ? data.damage : 0;
 	let armor = data.armor ? data.armor : 0;
+	let experience = data.experience ? data.experience : 0;
+	let level = data.level ? data.level : 0;
 
 	// construction, completed, destroyed
 	let status = data.status ? data.status : 'construction';
 
-
 	self.serialize = function () {
 		return {
 			id, name, code, moneyCost, mineralCost, hp, hpMax, moneyIncome,
-			mineralIncome, buildTime, buildCapacity, damage, status,
+			mineralIncome, buildTime, buildCapacity, damage, status, experience,
+			level,
 		}
 	}
 
@@ -1684,10 +1690,11 @@ const Building = function (data) {
 	self.getMineralIncome = () => mineralIncome;
 	self.getBuildTime = () => buildTime;
 	self.getBuildCapacity = () => buildCapacity;
-	self.getDamage = () => damage;
-	self.getArmor = () => armor;
+	self.getDamage = () => damage + level;
+	self.getArmor = () => armor + level;
 	self.getStatus = () => status;
-
+	self.getExperience = () => experience;
+	self.getLevel = () => level;
 
 	self.getPlayerColor = function () {
 		if (player && player.getColor) {
@@ -1716,10 +1723,14 @@ const Building = function (data) {
 		}
 	}
 
-
 	self.repair = function () {
 		hp += parseInt(hpMax * 0.05);
 		hp = Math.min(hp, hpMax);
+	}
+
+	self.addExperience = function (xp) {
+		experience += parseInt(xp);
+		level = parseInt(experience / 100);
 	}
 }
 
@@ -6195,7 +6206,9 @@ module.exports = function (props) {
     className: "block-title"
   }, React.createElement("h2", null, props.title)), React.createElement("div", {
     className: "block-body"
-  }, props.children));
+  }, props.children), React.createElement("div", {
+    className: "clearfix"
+  }));
 };
 
 /***/ }),
@@ -6248,11 +6261,21 @@ var ReactTooltip = __webpack_require__(3);
 var HpBar = __webpack_require__(15);
 
 var renderDataTip = function renderDataTip(elt) {
+  var tip = '';
+
   if (elt.getStatus() == 'completed') {
-    return elt.getId() + " : " + elt.getName() + '<br />' + elt.getHp() + ' / ' + elt.getHpMax();
+    tip += elt.getId() + " : " + elt.getName() + '<br />' + elt.getHp() + ' / ' + elt.getHpMax();
+    tip += '<br/>Armor : ' + elt.getArmor();
+
+    if (elt.getDamage() > 0) {
+      tip += '<br/>Damage : ' + elt.getDamage();
+      tip += '<br/>Level : ' + elt.getLevel();
+    }
   } else {
-    return elt.getId() + " : " + elt.getName() + '<br />' + elt.getBuildTime() + " turn" + (elt.getBuildTime() > 1 ? 's' : '') + " remaining";
+    tip += elt.getId() + " : " + elt.getName() + '<br />' + elt.getBuildTime() + " turn" + (elt.getBuildTime() > 1 ? 's' : '') + " remaining";
   }
+
+  return tip;
 };
 
 module.exports = function (props) {
@@ -6305,13 +6328,22 @@ var ReactTooltip = __webpack_require__(3);
 var GameHpBar = __webpack_require__(15);
 
 var renderDataTip = function renderDataTip(elt) {
-  var firstLine = elt.getId() + " : " + elt.getName();
+  var tip = elt.getId() + " : " + elt.getName();
 
   if (elt.getStatus() == 'completed') {
-    return firstLine + '<br />' + elt.getHp() + ' / ' + elt.getHpMax() + '<br />' + elt.getExperience() + ' xp';
+    tip += '<br />' + elt.getHp() + ' / ' + elt.getHpMax() + '<br />' + elt.getExperience() + ' xp';
+
+    if (elt.getDamage() > 0) {
+      tip += '<br/>Damage : ' + elt.getDamage();
+    }
+
+    tip += '<br/>Armor : ' + elt.getArmor();
+    tip += '<br/>Level : ' + elt.getLevel();
   } else {
-    return firstLine + '<br />' + elt.getBuildTime() + " turn" + (elt.getBuildTime() > 1 ? 's' : '') + " remaining";
+    tip += '<br />' + elt.getBuildTime() + " turn" + (elt.getBuildTime() > 1 ? 's' : '') + " remaining";
   }
+
+  return tip;
 };
 
 module.exports = function (props) {
@@ -6506,7 +6538,7 @@ function (_React$Component) {
 
       return React.createElement(AppPage, {
         backgroundImage: "menu"
-      }, React.createElement(Header, null, React.createElement("span", null, "SGame v1.2.0")), React.createElement(MainMenuBlock, {
+      }, React.createElement(Header, null, React.createElement("span", null, "SGame v1.2.1")), React.createElement(MainMenuBlock, {
         title: "Saved games",
         name: "available_games",
         column: "left"
@@ -6711,7 +6743,6 @@ module.exports = function (data) {
 		return attacks;
 	}
 
-
 	self.canBuild = function (code) {
 		const eltDefault = clone(defaultValues.building[code]);
 		if (eltDefault) {
@@ -6860,6 +6891,7 @@ module.exports = function (data) {
 			}
 		}
 
+		// second construction round
 		if (constructionCapacity > 0 && workshopCapacity > 0) {
 			constructionCapacity = Math.min(constructionCapacity, workshopCapacity);
 			for (let i=0; i<buildings.length; i++) {
@@ -6874,6 +6906,7 @@ module.exports = function (data) {
 				}
 			}
 
+			// reparations
 			const buildingsToRepair = [];
 			for (let i=0; i<buildings.length; i++) {
 				if (buildings[i].getStatus() === 'completed'
@@ -6955,6 +6988,21 @@ module.exports = function (data) {
 			}
 			self.addAlert('info', msg, 4);
 		}
+
+		// reparations
+		const playerCompletedUnits = self.getCompletedUnits();
+		for (let i=0; i<playerCompletedUnits.length; i++) {
+			if (playerCompletedUnits[i].getHp() < playerCompletedUnits[i].getHpMax()) {
+				const unitCode = playerCompletedUnits[i].getCode();
+				const buildingCode = defaultValues.unit[unitCode].building;
+				if (capacities[buildingCode] > 0) {
+					capacities[buildingCode]--;
+					playerCompletedUnits[i].repair();
+					const msg = playerCompletedUnits[i].getName()+" "+playerCompletedUnits[i].getId() + " is repaired";
+					self.addAlert('info', msg, 2);
+				}
+			}
+		}
 	}
 
 
@@ -6998,8 +7046,6 @@ module.exports = function (data) {
 			if (self.hasResourceToTrain(code)) {
 				eltDefault.id = game.getNextCurrentId();
 				eltDefault.hpMax = eltDefault.hp;
-				eltDefault.baseDamage = eltDefault.damage;
-				eltDefault.baseArmor = eltDefault.armor;
 				eltDefault.status = 'construction';
 				eltDefault.player = self;
 				const newElt = new Unit(eltDefault);
@@ -7328,9 +7374,14 @@ module.exports = function (data) {
 						enemyEntities.push(enemyBuildings[i]);
 					}
 				}
-				for (let i=0; i<units.length; i++) {
-					const r = parseInt(Math.random()*enemyEntities.length);
-					enemyEntities[r].takeDamage(units[i].getDamage());
+				if (enemyEntities.length) {
+					for (let i=0; i<units.length; i++) {
+						const r = parseInt(Math.random()*enemyEntities.length);
+						enemyEntities[r].takeDamage(units[i].getDamage());
+						if (enemyEntities[r].getStatus() === 'destroyed') {
+							units[i].addExperience(parseInt(enemyEntities[r].getHpMax() / 20));
+						}
+					}
 				}
 
 				// defense
@@ -7340,6 +7391,11 @@ module.exports = function (data) {
 					const rUnit = units[r];
 					if (rUnit && enemyEntities[i].getDamage() > 0) {
 						rUnit.takeDamage(enemyEntities[i].getDamage());
+						if (rUnit.getStatus() === 'destroyed'
+							&& typeof enemyEntities[i].addExperience === 'function'
+						) {
+							enemyEntities[i].addExperience(rUnit.getHpMax() / 20);
+						}
 					}
 				}
 			}

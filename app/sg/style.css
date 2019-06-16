@@ -126,17 +126,6 @@ body div#application-container div.game-block {
   background: rgba(0, 0, 32, 0.5);
   margin: 4px;
 }
-body div#application-container div.game-block[data-column=left] {
-  float: left;
-}
-body div#application-container div.game-block[data-column=right] {
-  float: right;
-}
-@media (min-width: 768px) {
-  body div#application-container div.game-block {
-    width: calc(50% - 10px);
-  }
-}
 body div#application-container div.game-block div.block-body {
   padding: 4px;
 }
