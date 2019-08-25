@@ -100,6 +100,8 @@ if (true) {
 /* 1 */
 /***/ (function(module, exports) {
 
+exports.version = '0.2.1';
+
 exports.color = {
 	red : {
 		code : 'red',
@@ -184,11 +186,12 @@ const prefix = 'kq_';
 const menuParams = {};
 let games = [];
 
-const nextGameId = function () {
+exports.nextGameId = function () {
 	const settings = exports.getMenuParams();
-	settings.currentGameId++;
-	const id = settings.currentGameId;
-	exports.setMenuParams('currentGameId', id);
+	const id = (settings.currentGameId || 0) + 1;
+	exports.setMenuParams({
+		currentGameId: id,
+	});
 	return id;
 }
 
@@ -219,10 +222,6 @@ exports.setMenuParams = function (params) {
 	if (params.row) {
 		menuParams.row = params.row;
 	}
-	// TODO: voir si c'est utile
-	if (params.rows) {
-		menuParams.rows = params.rows;
-	}
 	if (params.currentGameId) {
 		menuParams.currentGameId = params.currentGameId;
 	}
@@ -243,12 +242,6 @@ exports.getAllGames = function() {
 	return games;
 }
 
-exports.createGame = function (data) {
-	data.id = nextGameId();
-	exports.saveGame(data);
-	return data.id;
-}
-
 exports.loadGame = function (id) {
 	if (localStorage[prefix+'game_'+id]) {
 		try {
@@ -259,6 +252,12 @@ exports.loadGame = function (id) {
 		}
 	}
 	return false;
+}
+
+exports.deleteGame = function(id) {
+	if (localStorage[prefix+'game_'+id]) {
+		delete localStorage[prefix+'game_'+id];
+	}
 }
 
 exports.saveGame = function (data) {
@@ -272,6 +271,30 @@ exports.saveGame = function (data) {
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
+const consts = __webpack_require__(1);
+
+exports.intval = function (i) {
+	i = parseInt(i);
+	if (isNaN(i)) {
+		i = 0;
+	}
+	return i;
+}
+
+exports.capitalize = function(str) {
+	if (str.length) {
+		return str[0].toUpperCase()+str.slice(1);
+	}
+	else {
+		return '';
+	}
+}
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
 var React = __webpack_require__(0);
 
 module.exports = function (props) {
@@ -283,7 +306,7 @@ module.exports = function (props) {
 };
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var React = __webpack_require__(0);
@@ -298,21 +321,6 @@ module.exports = function (props) {
     className: "gi gi-" + props.glyph
   }));
 };
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-const consts = __webpack_require__(1);
-
-exports.intval = function (i) {
-	i = parseInt(i);
-	if (isNaN(i)) {
-		i = 0;
-	}
-	return i;
-}
-
 
 /***/ }),
 /* 6 */
@@ -447,61 +455,80 @@ const Move = __webpack_require__(20);
 const Alert = __webpack_require__(21);
 const AI = __webpack_require__(22);
 const consts = __webpack_require__(1);
+const storage = __webpack_require__(2);
+const utils = __webpack_require__(3);
 
 const Game = function (params) {
 	const self = this;
 
-	const id = params.id ? params.id : 0;
-	const name = params.name ? params.name : '';
-	let turn = params.turn ? params.turn : 0;
-	let playingPlayerId = params.playingPlayerId ? params.playingPlayerId : 0;
-	let playingPlayer = params.playingPlayer ? params.playingPlayer : null;
+	const id = params.id || 0;
+	const name = params.name || '';
+	let turn = params.turn || 0;
+	let playingPlayerId = params.playingPlayerId || 0;
+	let playingPlayer = params.playingPlayer || null;
 
 	const rows = [];
 	let players = [];
 	let moves = [];
 	let alerts = [];
 
-	if (params && params.players && params.players.length) {
-		for (let i=0; i<params.players.length; i++) {
-			params.players[i].game = self;
-			players.push(new Player(params.players[i]));
-		}
-	}
-
-	if (params && params.rows && params.rows.length) {
-		for (let i=0; i<params.rows.length; i++) {
-			const cells = [];
-			for (let j=0; j<params.rows[i].length; j++) {
-				const cell = params.rows[i][j];
-				cell.rowId = i;
-				cell.columnId = j;
-				if (typeof params.rows[i][j].player === 'number') {
-					const player = players[params.rows[i][j].player];
-					cell.player = player;
-				}
-				cells.push(new Cell(cell));
+	const constructor = function(params) {
+		if (params && params.players && params.players.length) {
+			for (let i=0; i<params.players.length; i++) {
+				params.players[i].game = self;
+				players.push(new Player(params.players[i]));
 			}
-			rows.push(cells);
+		}
+
+		if (params && params.rows && params.rows.length) {
+			for (let i=0; i<params.rows.length; i++) {
+				const cells = [];
+				for (let j=0; j<params.rows[i].length; j++) {
+					const cell = params.rows[i][j];
+					cell.rowId = i;
+					cell.columnId = j;
+					cell.player = getPlayerById(params.rows[i][j].playerId);
+					cells.push(new Cell(cell));
+				}
+				rows.push(cells);
+			}
+		}
+
+		if (params && params.moves && params.moves.length) {
+			for (let i=0; i<params.moves.length; i++) {
+				params.moves[i].game = self;
+				params.moves[i].origin = getCellById(params.moves[i].originId);
+				params.moves[i].destination = getCellById(params.moves[i].destinationId);
+				params.moves[i].player = getPlayerById(params.moves[i].playerId);
+				moves.push(new Move(params.moves[i]));
+			}
+		}
+
+		if (params && params.alerts && params.alerts.length) {
+			for (let i=0; i<params.alerts.length; i++) {
+				alerts.push(new Alert(params.alerts[i]));
+			}
+		}
+
+		if (!playingPlayer && players[0]) {
+			playingPlayer = players[0];
+			playingPlayerId = 0;
 		}
 	}
 
-	console.log(params.moves);
-	if (params && params.moves && params.moves.length) {
-		for (let i=0; i<params.moves.length; i++) {
-			moves.push(new Move(params.moves[i]));
+	const getPlayerById = function(id) {
+		for (let i=0; i<players.length; i++) {
+			if (players[i].getId() === id) {
+				return players[i];
+			}
 		}
 	}
 
-	if (params && params.alerts && params.alerts.length) {
-		for (let i=0; i<params.alerts.length; i++) {
-			alerts.push(new Alert(params.alerts[i]));
-		}
-	}
-
-	if (!playingPlayer && players[0]) {
-		playingPlayer = players[0];
-		playingPlayerId = 0;
+	const getCellById = function(id) {
+		const idxs = id.split('-');
+		const rowId = idxs[0];
+		const columnId = idxs[1];
+		return rows[rowId][columnId];
 	}
 
 	self.getId = () => id;
@@ -533,14 +560,14 @@ const Game = function (params) {
 			army : params.army,
 			turnDeparture : turn,
 			turnArrival : turn + distance,
-			player : playingPlayer,
+			player : params.player || playingPlayer,
 		}));
 	}
 
 	const endTurn = function () {
 		for (let i=0; i<rows.length; i++) {
 			for (let j=0; j<rows[i].length; j++) {
-				if (rows[i][j].getPlanet()) {
+				if (rows[i][j].getHasPlanet()) {
 					if (rows[i][j].getPlayer()) {
 						rows[i][j].addArmy(rows[i][j].getProductivity());
 					}
@@ -560,17 +587,52 @@ const Game = function (params) {
 				let message = '';
 				if (cellPlayer == movePlayer) {
 					cell.addArmy(moves[i].getArmy());
-					message = 'Reinforcement have arrived for planet '+cell.getId();
+					message = [
+						'Reinforcement have arrived for planet ',
+						{
+							text : cell.getPlanetName() + ' ('+cell.getId()+')',
+							color : cell.getPlayer() && cell.getPlayer().getColor(),
+							bold : true,
+						},
+					];
 				}
 				else {
-					if (cell.getArmy() >= moves[i].getArmy()) {
+					// fight
+					const randomDefense = parseInt(Math.random()*4 - 2);
+					if (cell.getArmy() + randomDefense >= moves[i].getArmy()) {
 						cell.removeArmy(Math.max(moves[i].getArmy() -1 , 0));
-						message = 'Planet '+cell.getId()+' has held against an attack from '+movePlayer.getColor();
+						message = [
+							'Planet ',
+							{
+								text : cell.getPlanetName() + ' ('+cell.getId()+')',
+								color : cell.getPlayer() && cell.getPlayer().getColor(),
+								bold : true,
+							},
+							' has held against an attack from ',
+							{
+								text : movePlayer.getName(),
+								color : movePlayer.getColor(),
+								bold : true,
+							}
+						];
 					}
 					else {
 						cell.setPlayer(movePlayer);
 						cell.setArmy(moves[i].getArmy() - cell.getArmy());
-						message = 'Planet '+cell.getId()+' has fallen to '+movePlayer.getColor();
+						message = [
+							'Planet ',
+							{
+								text : cell.getId(),
+								color : cellPlayer && cellPlayer.getColor(),
+								bold : true,
+							},
+							' has fallen to ',
+							{
+								text : movePlayer.getName(),
+								color : movePlayer.getColor(),
+								bold : true,
+							},
+						];
 					}
 				}
 
@@ -592,7 +654,15 @@ const Game = function (params) {
 				newPlayers.push(players[i]);
 			}
 			else {
-				const message = players[i].getColor()+' is defeated';
+				const message = [
+					'Player ',
+					{
+						text : players[i].getName(),
+						color : players[i].getColor(),
+						bold : true,
+					},
+					' is defeated',
+				];
 				alerts.push(new Alert({
 					turn : turn,
 					message : message,
@@ -638,7 +708,7 @@ const Game = function (params) {
 		const planets = [];
 		for (let i=0; i<rows.length; i++) {
 			for (let j=0; j<rows[i].length; j++) {
-				if (rows[i][j].getPlanet()) {
+				if (rows[i][j].getHasPlanet()) {
 					planets.push(rows[i][j]);
 				}
 			}
@@ -683,27 +753,32 @@ const Game = function (params) {
 			data.alerts.push(alerts[i].serialize());
 		}
 
-		console.log(data.moves);
-
 		return data;
 	}
+
+	constructor(params);
 }
 
 Game.create = function (params) {
+	for (let i=0; i<params.players.length; i++) {
+		params.players[i].id = i;
+		params.players[i].name = utils.capitalize(params.players[i].type) + ' ' + utils.capitalize(params.players[i].color) + ' ' + i;
+	}
+
 	if (params && params.rows && params.rows.length) {
 		for (let i=0; i<params.rows.length; i++) {
 			if (params.rows[i] && params.rows[i].length) {
 				for (let j=0; j<params.rows[i].length; j++) {
-					if (typeof params.rows[i][j].planet !== 'undefined') {
-						params.rows[i][j].productivity = 3;
+					if (params.rows[i][j].hasPlanet) {
+						params.rows[i][j].productivity = parseInt(4 + Math.random() * 3);
 						params.rows[i][j].army = 1;
 						let r = parseInt(Math.random()*consts.planetNames.length);
 						params.rows[i][j].planetName = consts.planetNames[r];
 						r = parseInt(Math.random()*consts.planetImages.length);
 						params.rows[i][j].planetImage = consts.planetImages[r];
 					}
-					if (typeof params.rows[i][j].player !== 'undefined'
-						&& params.players[params.rows[i][j].player]
+					if (typeof params.rows[i][j].playerId !== 'undefined'
+						&& params.players[params.rows[i][j].playerId]
 					) {
 						params.rows[i][j].army = 10;
 					}
@@ -711,17 +786,19 @@ Game.create = function (params) {
 			}
 		}
 	}
+	params.id = storage.nextGameId();
 	return new Game(params);
 }
 
 module.exports = Game;
+
 
 /***/ }),
 /* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const consts = __webpack_require__(1);
-const utils = __webpack_require__(5);
+const utils = __webpack_require__(3);
 
 const storage = __webpack_require__(2);
 
@@ -837,7 +914,9 @@ exports.generatePreview = function (ng) {
 	for (let i=0; i<ng.row.value; i++) {
 		let cols = [];
 		for (let j=0; j<ng.column.value; j++) {
-			const cell = {};
+			const cell = {
+				id : i+'-'+j,
+			};
 			cols.push(cell);
 			cells.push(cell);
 		}
@@ -848,9 +927,9 @@ exports.generatePreview = function (ng) {
 		let p = true;
 		while (p) {
 			const r = parseInt(Math.random()*cells.length);
-			if (!cells[r].planet) {
+			if (!cells[r].hasPlanet) {
 				p = false;
-				cells[r].planet = true;
+				cells[r].hasPlanet = true;
 			}
 		}
 	}
@@ -858,12 +937,12 @@ exports.generatePreview = function (ng) {
 	for (let i=0; i<ng.players.length; i++) {
 		const habitablePlanets = [];
 		for (let j=0; j<cells.length; j++) {
-			if (cells[j].planet && typeof cells[j].player === 'undefined') {
+			if (cells[j].hasPlanet && typeof cells[j].playerId === 'undefined') {
 				habitablePlanets.push(cells[j]);
 			}
 		}
 		const r = parseInt(Math.random()*habitablePlanets.length);
-		habitablePlanets[r].player = i;
+		habitablePlanets[r].playerId = i;
 	}
 	return ng;
 }
@@ -1396,9 +1475,18 @@ function (_React$Component) {
   }
 
   _createClass(Main, [{
+    key: "startNewGame",
+    value: function startNewGame(gameValues) {
+      var game = GameObject.create(gameValues);
+      this.setState({
+        page: 'game',
+        game: game
+      });
+    }
+  }, {
     key: "startGame",
     value: function startGame(gameValues) {
-      var game = GameObject.create(gameValues);
+      var game = new GameObject(gameValues);
       this.setState({
         page: 'game',
         game: game
@@ -1422,7 +1510,8 @@ function (_React$Component) {
         });
       } else {
         return React.createElement(Menu, {
-          startGame: this.startGame.bind(this)
+          startGame: this.startGame.bind(this),
+          startNewGame: this.startNewGame.bind(this)
         });
       }
     }
@@ -1438,14 +1527,16 @@ function (_React$Component) {
 module.exports = function (params) {
 	const self = this;
 
-	const game = params.game ? params.game : null;
-	const name = params.name ? params.name : '';
-	const type = params.type ? params.type : 'computer';
-	const color = params.color ? params.color : '';
+	const id = params.id || 0;
+	const game = params.game || null;
+	const name = params.name || '';
+	const type = params.type || 'computer';
+	const color = params.color || '';
 	let hasPlayedTurn = false;
 	let selectedOriginCell = null;
 	let selectedDestinationCell = null;
 
+	self.getId = () => id;
 	self.getName = () => name;
 	self.getType = () => type;
 	self.getColor = () => color;
@@ -1481,10 +1572,21 @@ module.exports = function (params) {
 		return false;
 	}	
 
-	self.createMove = function (params) {}
+	self.createMove = function (armySize) {
+		game.createMove({
+			army : armySize,
+			origin : self.getSelectedOriginCell(),
+			destination : self.getSelectedDestinationCell(),
+			player : self,
+		});
+		self.getSelectedOriginCell().removeArmy(armySize);
+		self.setSelectedOriginCell(null);
+		self.setSelectedDestinationCell(null);
+	}
 
 	self.serialize = function () {
 		const data = {
+			id,
 			name,
 			type,
 			color,
@@ -1507,7 +1609,7 @@ module.exports = function (params) {
 	let player = params.player ? params.player : null;
 	let army = params.army ? params.army : 0;
 	let selected = params.selected ? params.selected : false;
-	const planet = params.planet ? params.planet : null;
+	const hasPlanet = params.hasPlanet ? params.hasPlanet : false;
 	const planetName = params.planetName ? params.planetName : null;
 	const planetImage = params.planetImage ? params.planetImage : null;
 	let productivity = params.productivity ? params.productivity : 0;
@@ -1517,7 +1619,7 @@ module.exports = function (params) {
 	self.getPlayer = () => player;
 	self.getArmy = () => army;
 	self.getSelected = () => selected;
-	self.getPlanet = () => planet;
+	self.getHasPlanet = () => hasPlanet;
 	self.getPlanetName = () => planetName;
 	self.getPlanetImage = () => planetImage;
 	self.getProductivity = () => productivity;
@@ -1565,7 +1667,10 @@ module.exports = function (params) {
 		const data = {
 			id,
 			rowId,
+			playerId : player && player.getId(),
+			army,
 			columnId,
+			hasPlanet,
 			planetName,
 			planetImage,
 			productivity,
@@ -1581,30 +1686,32 @@ module.exports = function (params) {
 module.exports = function (params) {
 	const self = this;
 
-	const origin = params.origin ? params.origin : '';
-	const destination = params.destination ? params.destination : '';
-	const turnDeparture = params.turnDeparture ? params.turnDeparture : 0;
-	const turnArrival = params.turnArrival ? params.turnArrival : 0;
+	const game = params.game || '';
+	const origin = params.origin || null; // cell
+	const destination = params.destination || null; // cell
+	const turnDeparture = params.turnDeparture || 0;
+	const turnArrival = params.turnArrival || 0;
 	const army = params.army ? params.army : 0;
-	const playerId = params.playerId ? params.playerId : 0;
 	const player = params.player ? params.player : null;
+
+	// c'est ici qu'il faut retrouver game, origin, player, destination à partir
+	// des ids
 
 	self.getOrigin = () => origin;
 	self.getDestination = () => destination;
 	self.getTurnDeparture = () => turnDeparture;
 	self.getTurnArrival = () => turnArrival;
 	self.getArmy = () => army;
-	self.getPlayerId = () => playerId;
 	self.getPlayer = () => player;
 
 	self.serialize = function () {
 		const data = {
-			origin,
-			destination,
+			originId : origin.getId(),
+			destinationId : destination.getId(),
 			turnDeparture,
 			turnArrival,
 			army,
-			playerId,
+			playerId : player.getId(),
 		};
 		return data;
 	}
@@ -1617,7 +1724,13 @@ module.exports = function (params) {
 module.exports = function (params) {
 	const self = this;
 
-	const message = params.message ? params.message : null;
+	/**
+	 * message :
+	 *  - text : string
+	 *  - bold : boolean
+	 *  - color : string (color name)
+	 */
+	const message = params.message ? params.message : [];
 	const turn = params.turn ? params.turn : 0;
 
 	self.getMessage = () => message;
@@ -1711,9 +1824,9 @@ var React = __webpack_require__(0);
 
 var storage = __webpack_require__(2);
 
-var Button = __webpack_require__(3);
+var Button = __webpack_require__(4);
 
-var SmallButton = __webpack_require__(4);
+var SmallButton = __webpack_require__(5);
 
 var Destination = __webpack_require__(24);
 
@@ -1758,7 +1871,7 @@ function (_React$Component) {
       var selectedOriginCell = player.getSelectedOriginCell();
 
       if (selectedOriginCell) {
-        if (cell.getPlanet() && cell != selectedOriginCell) {
+        if (cell.getHasPlanet() && cell != selectedOriginCell) {
           player.setSelectedDestinationCell(cell);
           this.setState({
             game: this.state.game
@@ -1776,18 +1889,12 @@ function (_React$Component) {
   }, {
     key: "sendArmy",
     value: function sendArmy(event) {
+      // TODO : mettre une référence ou autre chose
       var armySize = parseInt(document.getElementById('army_size').value);
       var player = this.state.game.getPlayingPlayer();
 
       if (armySize && typeof armySize === 'number' && armySize <= player.getSelectedOriginCell().getArmy()) {
-        this.state.game.createMove({
-          army: armySize,
-          origin: player.getSelectedOriginCell(),
-          destination: player.getSelectedDestinationCell()
-        });
-        player.getSelectedOriginCell().removeArmy(armySize);
-        player.setSelectedOriginCell(null);
-        player.setSelectedDestinationCell(null);
+        player.createMove(armySize);
         this.setState({
           game: this.state.game
         });
@@ -1852,7 +1959,7 @@ function (_React$Component) {
           className: "map"
         }, React.createElement("tbody", null, rows.map(function (row) {
           return React.createElement("tr", null, row.map(function (cell) {
-            return React.createElement("td", null, cell.getPlanet() && React.createElement(Planet, {
+            return React.createElement("td", null, cell.getHasPlanet() && React.createElement(Planet, {
               cell: cell,
               game: self.state.game,
               clickCell: self.clickCell.bind(_this2, cell)
@@ -1861,7 +1968,7 @@ function (_React$Component) {
         }))), React.createElement("div", {
           className: "game-block"
         }, React.createElement("h2", null, "Moves"), self.state.game.getMoves().map(function (elt) {
-          return React.createElement("div", null, "P ", elt.getOrigin().getId(), " (", elt.getTurnDeparture(), ") -> P ", elt.getDestination().getId(), " (", elt.getTurnArrival(), ") : ", elt.getArmy());
+          return React.createElement(Move, elt);
         })), React.createElement("div", {
           className: "game-block"
         }, React.createElement("h2", null, "Alerts"), self.state.game.getRecentAlerts().map(function (props) {
@@ -1874,17 +1981,25 @@ function (_React$Component) {
           });
         })));
       } else {
+        var remainingPlayer = players.reduce(function (p, c) {
+          return c;
+        });
+        storage.deleteGame(self.state.game.getId());
         return React.createElement(React.Fragment, null, React.createElement("div", {
           className: "game-block"
         }, React.createElement(Button, {
           onClick: self.backToMenu.bind(self)
         }, "Menu")), React.createElement("div", {
           className: "game-block"
-        }, players[0].getName(), " is victorious"), React.createElement("table", {
+        }, React.createElement("div", {
+          className: "text-container"
+        }, React.createElement("strong", {
+          className: 'text-color color-' + remainingPlayer.getColor()
+        }, remainingPlayer.getName()), " is victorious")), React.createElement("table", {
           className: "map"
         }, React.createElement("tbody", null, rows.map(function (row) {
           return React.createElement("tr", null, row.map(function (cell) {
-            return React.createElement("td", null, cell.getPlanet() && React.createElement(Planet, {
+            return React.createElement("td", null, cell.getHasPlanet() && React.createElement(Planet, {
               cell: cell,
               game: self.state.game
             }));
@@ -1923,7 +2038,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 var React = __webpack_require__(0);
 
-var Button = __webpack_require__(3);
+var Button = __webpack_require__(4);
 
 var Destination =
 /*#__PURE__*/
@@ -1985,13 +2100,33 @@ module.exports = Destination;
 var React = __webpack_require__(0);
 
 module.exports = function (elt) {
+  var message = elt.getMessage();
+  var messageText;
+
+  if (typeof message === 'string') {
+    messageText = message;
+  } else if (message.length && message.map) {
+    messageText = message.map(function (elt) {
+      if (typeof elt === 'string') {
+        return elt;
+      } else {
+        var className = elt.color ? 'text-color color-' + elt.color : '';
+        return elt.bold ? React.createElement("strong", {
+          className: className
+        }, elt.text) : React.createElement("span", {
+          className: className
+        }, elt.text);
+      }
+    });
+  }
+
   return React.createElement("div", {
     className: "alert"
   }, React.createElement("span", {
     className: "turn"
   }, elt.getTurn()), React.createElement("span", {
     className: "message"
-  }, elt.getMessage()));
+  }, messageText));
 };
 
 /***/ }),
@@ -2047,7 +2182,7 @@ function (_React$Component) {
       var classNames = [];
       var players = this.props.game.getPlayers();
 
-      if (cell.getPlanet()) {
+      if (cell.getHasPlanet()) {
         classNames.push('has-planet');
       }
 
@@ -2071,7 +2206,7 @@ function (_React$Component) {
       }, React.createElement("img", {
         className: "planet-image",
         src: "img/planet/" + cell.getPlanetImage() + ".png"
-      }), typeof cell.getPlayer() !== 'undefined' && cell.getPlanet() ? React.createElement(React.Fragment, null, React.createElement("div", {
+      }), typeof cell.getPlayer() !== 'undefined' && cell.getHasPlanet() ? React.createElement(React.Fragment, null, React.createElement("div", {
         className: "army-number"
       }, cell.getArmy()), React.createElement("div", {
         className: "name"
@@ -2132,13 +2267,13 @@ var menuStateManager = __webpack_require__(9);
 
 var storage = __webpack_require__(2);
 
-var utils = __webpack_require__(5);
+var utils = __webpack_require__(3);
 
-var Button = __webpack_require__(3);
+var Button = __webpack_require__(4);
 
 var NumberSelector = __webpack_require__(35);
 
-var SmallButton = __webpack_require__(4);
+var SmallButton = __webpack_require__(5);
 
 var MenuPage =
 /*#__PURE__*/
@@ -2161,13 +2296,21 @@ function (_React$Component) {
     key: "start",
     value: function start() {
       var newGame = menuStateManager.getState();
-      this.props.startGame(newGame);
+      this.props.startNewGame(newGame);
     }
   }, {
     key: "startGame",
     value: function startGame(id) {
       var loadedGame = storage.loadGame(id);
       this.props.startGame(loadedGame);
+    }
+  }, {
+    key: "deleteGame",
+    value: function deleteGame(id) {
+      storage.deleteGame(id);
+      this.setState({
+        gameList: storage.getAllGames()
+      });
     }
   }, {
     key: "handleSelect",
@@ -2266,21 +2409,26 @@ function (_React$Component) {
       }, React.createElement("tbody", null, self.state.newGame.rows.map(function (row) {
         return React.createElement("tr", null, row.map(function (column) {
           return React.createElement("td", {
-            className: (column.planet ? 'has-planet' : '') + (typeof column.player !== 'undefined' ? ' color-' + self.state.newGame.players[column.player].color : '')
+            className: (column.hasPlanet ? 'has-planet' : '') + (typeof column.playerId !== 'undefined' ? ' color-' + self.state.newGame.players[column.playerId].color : '')
           });
         }));
       })))) : null, React.createElement(Button, {
         onClick: menuStateManager.regenerate
       }, "Regenerate"), React.createElement(Button, {
         onClick: self.start.bind(self)
-      }, "Start")), React.createElement("div", {
+      }, "Start")), self.state.gameList && self.state.gameList.length ? React.createElement("div", {
         className: "game-block"
-      }, React.createElement("table", null, React.createElement("tbody", null, self.state.gameList && self.state.gameList.map(function (game) {
+      }, React.createElement("h2", null, "Current Games"), React.createElement("table", {
+        className: "list"
+      }, React.createElement("tbody", null, self.state.gameList.map(function (game) {
         return React.createElement("tr", null, React.createElement("td", null, game.id), React.createElement("td", null, game.name), React.createElement("td", null, game.turn), React.createElement("td", null, React.createElement(SmallButton, {
           glyph: "play",
           onClick: self.startGame.bind(self, game.id)
+        }), React.createElement(SmallButton, {
+          glyph: "remove",
+          onClick: self.deleteGame.bind(self, game.id)
         })));
-      })))), React.createElement("footer", null, "Version 0.2.0"));
+      })))) : null, React.createElement("footer", null, "Version ", consts.version));
     }
   }]);
 
@@ -4635,9 +4783,9 @@ var React = __webpack_require__(0);
 
 var menuStateManager = __webpack_require__(9);
 
-var utils = __webpack_require__(5);
+var utils = __webpack_require__(3);
 
-var SmallButton = __webpack_require__(4);
+var SmallButton = __webpack_require__(5);
 
 module.exports =
 /*#__PURE__*/

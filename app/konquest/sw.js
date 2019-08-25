@@ -28,12 +28,14 @@ self.addEventListener('activate', function (event) {
 self.addEventListener('fetch', function(event) {
 	event.respondWith(
 		caches.open(CACHE_NAME).then(function(cache) {
-			return cache.match(event.request).then(function (response) {
-				return response || fetch(event.request).then(function(response) {
+			return cache.match(event.request).then(function (resp) {
+				return fetch(event.request).then(function(response) {
 					if (event.request.method === 'GET' && event.request.cache !== 'no-store') {
 						cache.put(event.request, response.clone());
 					}
 					return response;
+				}).catch(function (err) {
+					return resp;
 				});
 			});
 		})

@@ -102,7 +102,7 @@ body table.map tr td {
   border-color: #444;
   border-width: 1px;
   border-style: solid;
-  background-color: #222;
+  background-color: rgba(32, 32, 32, 0.6);
   width: 48px;
   height: 48px;
 }
@@ -196,6 +196,7 @@ body .game-block {
   border-width: 1px;
   border-style: solid;
   margin: 2px 0px;
+  background-color: rgba(0, 0, 0, 0.3);
 }
 body .game-block.movement-zone {
   height: 34px;
@@ -234,6 +235,9 @@ body span.indicator {
   padding: 4px 8px;
   margin: 2px 4px;
 }
+body table.list tr {
+  height: 32px;
+}
 body .color.color-red {
   background-color: #F00;
 }
@@ -264,10 +268,43 @@ body .color.color-white {
 body .color.color-brown {
   background-color: #742;
 }
+body .text-container {
+  padding: 4px 8px;
+}
+body .text-color.color-red {
+  color: #F00;
+}
+body .text-color.color-blue {
+  color: #00F;
+}
+body .text-color.color-green {
+  color: #0F0;
+}
+body .text-color.color-yellow {
+  color: #FF0;
+}
+body .text-color.color-purple {
+  color: #F0F;
+}
+body .text-color.color-cyan {
+  color: #0FF;
+}
+body .text-color.color-orange {
+  color: #F80;
+}
+body .text-color.color-magenta {
+  color: #F08;
+}
+body .text-color.color-white {
+  color: #DDD;
+}
+body .text-color.color-brown {
+  color: #742;
+}
 @font-face {
   font-family: 'Glyphicons Halflings';
-  src: url('../fonts/glyphicons-halflings-regular.eot');
-  src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+  src: url('./fonts/glyphicons-halflings-regular.eot');
+  src: url('./fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('./fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('./fonts/glyphicons-halflings-regular.woff') format('woff'), url('./fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('./fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
 }
 .gi {
   position: relative;
