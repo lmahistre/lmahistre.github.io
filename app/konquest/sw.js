@@ -7,9 +7,9 @@ const STATICS_TO_PRELOAD = [
 	'img/icon/32.png',
 	'img/icon/64.png',
 	'img/icon/128.png',
+	'img/icon/192.png',
 	'img/icon/256.png',
 	'img/icon/512.png',
-	'fonts/glyphicons-halflings-regular.ttf',
 ];
 
 self.addEventListener('install', function (event) {

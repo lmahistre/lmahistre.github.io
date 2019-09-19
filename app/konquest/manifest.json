@@ -18,6 +18,11 @@
       "sizes": "128x128"
     },
     {
+      "src": "img/icon/192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
       "src": "img/icon/256.png",
       "type": "image/png",
       "sizes": "256x256"
@@ -28,7 +33,7 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": "https://lmahistre.github.io/app/konquest",
+  "start_url": "https://lmahistre.github.io/app/konquest/",
   "background_color": "#111",
   "display": "standalone",
   "scope": "/app/konquest",
