@@ -3010,10 +3010,9 @@
   margin: 2px 2px;
   border-radius: 2px;
   padding: 4px 8px;
-  color: #111;
+  color: #EEE;
 }
 .radio-selector .radio-selector-elt[data-selected=selected] {
-  color: #EEE;
   background-color: #38C;
 }
 body {
