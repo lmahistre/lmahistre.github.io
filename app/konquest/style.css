@@ -110,7 +110,7 @@ body table.map tr td {
   height: 48px;
 }
 body table.map tr td .planet {
-  height: 100%;
+  height: 48px;
 }
 body table.map tr td .planet.selected {
   background-color: #AAA;
@@ -146,7 +146,7 @@ body table.map tr td .planet.color-brown {
   background-color: #742;
 }
 body table.map tr td .planet .planet-image {
-  width: 100%;
+  width: 48px;
 }
 body table.map tr td .planet .army-number {
   background-color: rgba(0, 0, 0, 0.4);
@@ -223,17 +223,6 @@ body .game-block .alert .message {
   margin: 0px 2px;
   display: inline-block;
 }
-body .game-block .player-indicator {
-  display: inline-block;
-  width: 24px;
-  height: 24px;
-  line-height: 24px;
-  font-size: 24px;
-  margin: 2px;
-  color: #000;
-  padding: 4px;
-  border-radius: 4px;
-}
 body h2 {
   margin: 2px 4px;
   font-size: 18px;
@@ -244,6 +233,10 @@ body span.indicator {
 }
 body table.list tr {
   height: 32px;
+}
+body table.list tr .indicator {
+  width: 24px;
+  height: 24px;
 }
 body .color.color-red {
   background-color: #F00;
@@ -308,6 +301,28 @@ body .text-color.color-white {
 body .text-color.color-brown {
   color: #742;
 }
+body .checkbox {
+  display: flex;
+  height: 28px;
+}
+body .checkbox.green svg {
+  fill: #0F0;
+}
+body .checkbox.yellow svg {
+  fill: #FF0;
+}
+body .checkbox.red svg {
+  fill: #F00;
+}
+body .checkbox svg {
+  width: 24px;
+  height: 24px;
+  margin: 2px 4px;
+}
+body .checkbox .checkbox-label {
+  vertical-align: top;
+  margin: 2px 4px;
+}
 body .statistics .statistics-element {
   display: inline-block;
   width: 60px;
@@ -318,4 +333,15 @@ body .statistics .statistics-element svg {
   margin-left: 4px;
   width: 14px;
   height: 14px;
+}
+body .player-indicator {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  font-size: 24px;
+  margin: 2px;
+  color: #000;
+  padding: 4px;
+  border-radius: 4px;
 }
