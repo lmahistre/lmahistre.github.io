@@ -231,6 +231,7 @@ html body #react-root .app-container input[type=text] {
   font-size: 16px;
   font-family: Arial, sans-serif;
   outline: none;
+  height: 27px;
 }
 html body #react-root .app-container input[type=text] {
   color: #EEE;
@@ -265,11 +266,13 @@ html body #react-root .app-container .project-label {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
+  margin: 1px 0px;
+  height: 18px;
 }
 html body #react-root .app-container select.project-label {
   width: 100%;
   height: 27px;
-  margin: 0px;
+  margin: 0px 0px -4px 0px;
 }
 html body #react-root .app-container div.new-task-form {
   padding: 2px 4px;
@@ -280,7 +283,7 @@ html body #react-root .app-container div.ui-tr {
 }
 html body #react-root .app-container div.ui-tr > div.td {
   display: inline-block;
-  vertical-align: middle;
+  vertical-align: top;
 }
 html body #react-root .app-container div.ui-block {
   margin: 4px 4px;
