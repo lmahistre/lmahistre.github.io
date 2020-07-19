@@ -35,6 +35,9 @@ body td.input input {
   padding: 2px 4px;
   display: block;
 }
+body td.input input.code {
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+}
 body td.input div.input-container {
   width: 100%;
   display: flex;
